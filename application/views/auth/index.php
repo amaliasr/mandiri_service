@@ -10,8 +10,32 @@
                 <label for="inputPassword">Password</label>
                 <input type="password" class="form-control" id="inputPassword" placeholder="Password">
             </div>
-            <button class="btn btn-primary">Login</button>
+            <button class="btn btn-primary" id="btnLogin">Login</button>
 
         </form>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#btnLogin').click(function() {
+            var email = $('#inputEmail').val();
+            var password = $('#inputPassword').val();
+
+            $.ajax({
+                url: '<?= base_url() ?>Auth/doLogin',
+                type: 'POST',
+                data: {
+                    email: email,
+                    password: password
+                },
+                success: function(response) {
+                    if (response === 'success') {
+                        alert('Login berhasil');
+                    } else {
+                        alert('Login gagal');
+                    }
+                }
+            });
+        });
+    });
+</script>
