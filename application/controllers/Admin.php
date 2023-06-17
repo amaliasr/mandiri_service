@@ -10,7 +10,7 @@ class Admin extends CI_Controller
         if (!is_login()) {
             redirect('Auth');
         }
-        // $this->user_id = $this->session->userdata('user_id');
+        $this->user_id = $this->session->userdata('id');
     }
     public function index()
     {

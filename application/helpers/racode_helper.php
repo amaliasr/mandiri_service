@@ -9,3 +9,23 @@ function is_login()
         return false;
     }
 }
+function is_user()
+{
+    $ci = get_instance();
+    $category = $ci->session->userdata('category');
+    if ($category == 'user') {
+        return true;
+    } else {
+        return false;
+    }
+}
+function is_admin()
+{
+    $ci = get_instance();
+    $category = $ci->session->userdata('category');
+    if ($category == 'admin') {
+        return true;
+    } else {
+        return false;
+    }
+}
