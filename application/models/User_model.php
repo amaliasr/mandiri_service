@@ -51,4 +51,10 @@ class User_model extends CI_Model
     {
         return $this->db->get('brand')->result_array();
     }
+    public function get_product($product_id)
+    {
+        $this->db->where('id', $product_id);
+        $query = $this->db->get('produk');
+        return $query->row();
+    }
 }
