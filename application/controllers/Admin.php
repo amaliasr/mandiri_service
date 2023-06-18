@@ -89,7 +89,6 @@ class Admin extends CI_Controller
             'harga' => $this->input->post('harga'),
             'stok' => $this->input->post('stok')
         );
-
         $product_id = $this->input->post('product_id');
         $this->User_model->update_product($product_id, $data);
         echo json_encode(array('status' => 'success', 'message' => 'Product updated successfully.'));
@@ -107,28 +106,28 @@ class Admin extends CI_Controller
 
     public function add_brand()
     {
-        $data = [
+        $data = array(
             'name' => $this->input->post('name'),
-            'description' => $this->input->post('description')
-        ];
+        );
         $this->User_model->add_brand($data);
         echo json_encode(array('status' => 'success', 'message' => 'Brand added successfully.'));
     }
 
-    public function edit_brand($id)
+    public function edit_brand()
     {
-        $data = [
+        $data = array(
             'name' => $this->input->post('name'),
-            'description' => $this->input->post('description')
-        ];
-
-        $this->User_model->update_brand($id, $data);
+        );
+        $brand_id = $this->input->post('brand_id');
+        $this->User_model->update_brand($brand_id, $data);
         echo json_encode(array('status' => 'success', 'message' => 'Brand updated successfully.'));
     }
 
-    public function delete_brand($id)
+    public function delete_brand()
     {
-        $this->User_model->delete_brand($id);
-        echo json_encode(array('status' => 'success', 'message' => 'Brand deleted successfully.'));
+        $brand_id = $this->input->post('brand_id');
+        $this->User_model->delete_brand($brand_id);
+        $response = array('status' => 'success');
+        echo json_encode($response);
     }
 }

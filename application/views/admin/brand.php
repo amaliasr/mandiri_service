@@ -34,7 +34,7 @@
                 <h4 class="modal-title">Add Brand</h4>
             </div>
             <div class="modal-body p-5">
-                <form id="formAddProduct">
+                <form id="formAddBrand">
                     <div class="form-group">
                         <label for="type">Name</label>
                         <input type="text" class="form-control" id="name" name="name">
@@ -106,11 +106,11 @@
         });
     }
     $(document).on('click', '#btnAddBrand', function(e) {
-        var form = $('#formAddProduct')[0];
+        var form = $('#formAddBrand')[0];
         var formData = new FormData(form);
 
         $.ajax({
-            url: '<?= base_url('admin/add_product') ?>',
+            url: '<?= base_url('admin/add_brand') ?>',
             type: 'POST',
             data: formData,
             contentType: false,
@@ -126,13 +126,13 @@
         });
     });
 
-    function hapusData(product_id) {
+    function hapusData(brand_id) {
         if (confirm('Are you sure you want to delete this product?')) {
             $.ajax({
-                url: "<?php echo base_url('admin/delete_product'); ?>",
+                url: "<?php echo base_url('admin/delete_brand'); ?>",
                 method: "POST",
                 data: {
-                    product_id: product_id
+                    brand_id: brand_id
                 },
                 dataType: "json",
                 success: function(response) {
@@ -145,22 +145,19 @@
         }
     }
 
-    function editData(product_id) {
+    function editData(brand_id) {
         $.ajax({
-            url: "<?php echo base_url('admin/get_product'); ?>",
+            url: "<?php echo base_url('admin/get_brand'); ?>",
             method: "POST",
             data: {
-                product_id: product_id
+                brand_id: brand_id
             },
             dataType: "json",
             success: function(response) {
-                var product = response.product;
+                var brand = response.brand;
                 // Isi nilai-nilai input form dengan data produk yang diambil
-                $('#editBrandModal #editProductID').val(product.id);
-                $('#editBrandModal #editType').val(product.type);
-                $('#editBrandModal #editName').val(product.name);
-                $('#editBrandModal #editHarga').val(product.harga);
-                $('#editBrandModal #editStok').val(product.stok);
+                $('#editBrandModal #editBrandID').val(brand.id);
+                $('#editBrandModal #editName').val(brand.name);
 
                 // Tampilkan modal edit produk
                 $('#editBrandModal').modal('show');
@@ -170,12 +167,12 @@
             }
         });
     }
-    $(document).on('click', '#btnUpdateProduct', function(e) {
-        var form = $('#formEditProduct')[0];
+    $(document).on('click', '#btnUpdateBrand', function(e) {
+        var form = $('#formEditBrand')[0];
         var formData = new FormData(form);
 
         $.ajax({
-            url: '<?= base_url('admin/update_product') ?>',
+            url: '<?= base_url('admin/update_brand') ?>',
             type: 'POST',
             data: formData,
             contentType: false,
