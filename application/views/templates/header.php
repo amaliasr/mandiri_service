@@ -202,9 +202,11 @@
                                                     <li><a href="#">Service</a></li>
                                                     <li><a href="#">Contact Us</a></li>
                                                 <?php } else { ?>
-                                                    <li><a href="#">Product</a></li>
-                                                    <li><a href="#">Service</a></li>
-                                                    <li><a href="#">Complaint</a></li>
+                                                    <li><a href="<?= base_url() ?>admin">Home</a></li>
+                                                    <li><a href="<?= base_url() ?>admin/brand">Brand</a></li>
+                                                    <li><a href="<?= base_url() ?>admin/product">Product</a></li>
+                                                    <li><a href="<?= base_url() ?>admin/service">Service</a></li>
+                                                    <li><a href="<?= base_url() ?>admin/complaint">Complaint</a></li>
                                                 <?php } ?>
                                             </ul>
                                         </div>
