@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 17, 2023 at 06:22 AM
+-- Generation Time: Jun 18, 2023 at 07:14 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.1.17
 
@@ -31,6 +31,14 @@ CREATE TABLE `brand` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `brand`
+--
+
+INSERT INTO `brand` (`id`, `name`) VALUES
+(1, 'TOSHIBA'),
+(2, 'SHARP');
 
 -- --------------------------------------------------------
 
@@ -62,6 +70,14 @@ CREATE TABLE `produk` (
   `image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `produk`
+--
+
+INSERT INTO `produk` (`id`, `type`, `name`, `id_brand`, `harga`, `stok`, `image`) VALUES
+(1, 'TV', '32 Inch AQUOS LED 2T-C32DC1i', 2, 5000000, 2, '196366f2f7aea13d5d3864f819749c7d.jpg'),
+(2, 'TV', 'LED TV 2K DIGITAL 2T-C42DD1i', 2, 9000000, 1, 'caad28e6285946ca7dab5e4eb81a0681.jpg');
+
 -- --------------------------------------------------------
 
 --
@@ -91,6 +107,13 @@ CREATE TABLE `user` (
   `email` varchar(255) NOT NULL,
   `password` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `category`, `name`, `alamat`, `email`, `password`) VALUES
+(1, 'admin', 'admin', '', 'admin@user.com', '21232f297a57a5a743894a0e4a801fc3');
 
 --
 -- Indexes for dumped tables
@@ -134,7 +157,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `brand`
 --
 ALTER TABLE `brand`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `pembelian`
@@ -146,7 +169,7 @@ ALTER TABLE `pembelian`
 -- AUTO_INCREMENT for table `produk`
 --
 ALTER TABLE `produk`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `service`
@@ -158,7 +181,7 @@ ALTER TABLE `service`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
