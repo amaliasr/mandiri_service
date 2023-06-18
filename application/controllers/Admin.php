@@ -29,7 +29,7 @@ class Admin extends CI_Controller
         $data['products'] = $this->User_model->get_all_products();
         echo json_encode($data);
     }
-    public function get_product()
+    public function get_product_id()
     {
         $product_id = $this->input->post('product_id');
         $product = $this->User_model->get_product($product_id);
@@ -103,6 +103,17 @@ class Admin extends CI_Controller
         $brands = $this->User_model->get_all_brands();
         echo json_encode($brands);
     }
+    public function get_brand_id()
+    {
+        $brand_id = $this->input->post('brand_id');
+        $brand = $this->User_model->get_brand_by_id($brand_id);
+        if ($brand) {
+            $response['brand'] = $brand;
+            echo json_encode($response);
+        } else {
+            echo json_encode(['message' => 'Brand not found']);
+        }
+    }
 
     public function add_brand()
     {
@@ -113,7 +124,7 @@ class Admin extends CI_Controller
         echo json_encode(array('status' => 'success', 'message' => 'Brand added successfully.'));
     }
 
-    public function edit_brand()
+    public function update_brand()
     {
         $data = array(
             'name' => $this->input->post('name'),

@@ -193,7 +193,7 @@
 
     function editData(product_id) {
         $.ajax({
-            url: "<?php echo base_url('admin/get_product'); ?>",
+            url: "<?php echo base_url('admin/get_product_id'); ?>",
             method: "POST",
             data: {
                 product_id: product_id

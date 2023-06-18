@@ -147,7 +147,7 @@
 
     function editData(brand_id) {
         $.ajax({
-            url: "<?php echo base_url('admin/get_brand'); ?>",
+            url: "<?php echo base_url('admin/get_brand_id'); ?>",
             method: "POST",
             data: {
                 brand_id: brand_id
@@ -155,6 +155,7 @@
             dataType: "json",
             success: function(response) {
                 var brand = response.brand;
+                console.log(brand)
                 // Isi nilai-nilai input form dengan data produk yang diambil
                 $('#editBrandModal #editBrandID').val(brand.id);
                 $('#editBrandModal #editName').val(brand.name);
