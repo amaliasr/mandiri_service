@@ -47,14 +47,35 @@ class User_model extends CI_Model
         $this->db->where('id', $id);
         return $this->db->delete('produk');
     }
-    public function get_all_brands()
-    {
-        return $this->db->get('brand')->result_array();
-    }
     public function get_product($product_id)
     {
         $this->db->where('id', $product_id);
         $query = $this->db->get('produk');
         return $query->row();
+    }
+    public function get_all_brands()
+    {
+        return $this->db->get('brand')->result_array();
+    }
+    public function add_brand($data)
+    {
+        return $this->db->insert('brand', $data);
+    }
+
+    public function update_brand($id, $data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('brand', $data);
+    }
+
+    public function delete_brand($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->delete('brand');
+    }
+
+    public function get_brand_by_id($id)
+    {
+        return $this->db->get_where('brand', array('id' => $id))->row();
     }
 }

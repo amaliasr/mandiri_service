@@ -40,14 +40,6 @@ class Admin extends CI_Controller
             echo json_encode(['message' => 'Product not found']);
         }
     }
-    public function get_brands()
-    {
-        $brands = $this->User_model->get_all_brands();
-        $response = array(
-            'brands' => $brands
-        );
-        echo json_encode($response);
-    }
 
     public function add_product()
     {
@@ -100,6 +92,43 @@ class Admin extends CI_Controller
 
         $product_id = $this->input->post('product_id');
         $this->User_model->update_product($product_id, $data);
-        echo json_encode(array('status' => 'success', 'message' => 'Product added successfully.'));
+        echo json_encode(array('status' => 'success', 'message' => 'Product updated successfully.'));
+    }
+    public function brand()
+    {
+        $data['title'] = 'Brand';
+        $this->template->views('admin/brand', $data);
+    }
+    public function get_brands()
+    {
+        $brands = $this->User_model->get_all_brands();
+        echo json_encode($brands);
+    }
+
+    public function add_brand()
+    {
+        $data = [
+            'name' => $this->input->post('name'),
+            'description' => $this->input->post('description')
+        ];
+        $this->User_model->add_brand($data);
+        echo json_encode(array('status' => 'success', 'message' => 'Brand added successfully.'));
+    }
+
+    public function edit_brand($id)
+    {
+        $data = [
+            'name' => $this->input->post('name'),
+            'description' => $this->input->post('description')
+        ];
+
+        $this->User_model->update_brand($id, $data);
+        echo json_encode(array('status' => 'success', 'message' => 'Brand updated successfully.'));
+    }
+
+    public function delete_brand($id)
+    {
+        $this->User_model->delete_brand($id);
+        echo json_encode(array('status' => 'success', 'message' => 'Brand deleted successfully.'));
     }
 }
