@@ -1,6 +1,9 @@
 <div class="container p-5">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 pl-5">
+            <h4>Product</h4>
+        </div>
+        <div class="col-md-12 p-5">
             <button type="button" class="btn btn-primary mb-2" data-toggle="modal" href="#addProductModal">
                 Add Product
             </button>
@@ -45,8 +48,11 @@
                         <input type="text" class="form-control" id="name" name="name">
                     </div>
                     <div class="form-group">
-                        <label for="brand">Brand</label>
+                        <label>Brand</label>
                         <select class="form-control" id="brand" name="brand">
+                            <?php foreach ($brand as $key => $value) { ?>
+                                <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+                            <?php } ?>
                         </select>
                     </div>
                     <div class="form-group">
@@ -77,6 +83,7 @@
     });
 
     function getData() {
+        $('#productTable').html('')
         $.ajax({
             url: "<?php echo base_url('admin/get_products'); ?>",
             method: "GET",
@@ -93,7 +100,7 @@
                     row.append($('<td>').text(product.brand_name));
                     row.append($('<td>').text(product.harga));
                     row.append($('<td>').text(product.stok));
-                    row.append($('<td>').text(product.image));
+                    row.append($('<td>').html('<a href="<?= base_url() ?>upload/product/' + product.image + '" target="_blank"><img src="<?= base_url() ?>upload/product/' + product.image + '" style="width:20px;height:20px;object-fit:cover"></a>'));
 
                     tableBody.append(row);
                 });
@@ -103,4 +110,26 @@
             }
         });
     }
+
+    $(document).on('click', '#btnAddProduct', function(e) {})
+    $(document).on('click', '#btnAddProduct', function(e) {
+        var form = $('#formAddProduct')[0];
+        var formData = new FormData(form);
+
+        $.ajax({
+            url: '<?= base_url('admin/add_product') ?>',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                alert(response.message);
+                $('.modal').modal('hide');
+                getData()
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
+    });
 </script>
