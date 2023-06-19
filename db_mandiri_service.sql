@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 18, 2023 at 07:14 PM
+-- Generation Time: Jun 19, 2023 at 05:28 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.1.17
 
@@ -39,6 +39,46 @@ CREATE TABLE `brand` (
 INSERT INTO `brand` (`id`, `name`) VALUES
 (1, 'TOSHIBA'),
 (2, 'SHARP');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `komplain`
+--
+
+CREATE TABLE `komplain` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `title` text NOT NULL,
+  `detail` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `komplain`
+--
+
+INSERT INTO `komplain` (`id`, `id_user`, `title`, `detail`) VALUES
+(1, 2, 'Barang Saya belum selesai?', 'saya telah melakukan service disini tapi masih belum selesai sampai 2 bulan'),
+(2, 2, 'Halo', 'halo');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `komplain_reply`
+--
+
+CREATE TABLE `komplain_reply` (
+  `id` int(11) NOT NULL,
+  `id_komplain` int(11) NOT NULL,
+  `balasan` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `komplain_reply`
+--
+
+INSERT INTO `komplain_reply` (`id`, `id_komplain`, `balasan`) VALUES
+(1, 1, 'maaf sebelumnya kalau terlalu lama');
 
 -- --------------------------------------------------------
 
@@ -90,8 +130,16 @@ CREATE TABLE `service` (
   `type` varchar(100) NOT NULL,
   `name` varchar(255) NOT NULL,
   `note` text NOT NULL,
-  `status` varchar(100) NOT NULL
+  `status` varchar(100) NOT NULL,
+  `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `service`
+--
+
+INSERT INTO `service` (`id`, `id_brand`, `type`, `name`, `note`, `status`, `id_user`) VALUES
+(1, 1, 'C350L Series', 'Toshiba 75” C350L 4K UHD Smart TV', 'terjadi kerusakan pada layarnya', 'Mulai Pembenahan', 2);
 
 -- --------------------------------------------------------
 
@@ -113,7 +161,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `category`, `name`, `alamat`, `email`, `password`) VALUES
-(1, 'admin', 'admin', '', 'admin@user.com', '21232f297a57a5a743894a0e4a801fc3');
+(1, 'admin', 'admin', '', 'admin@user.com', '21232f297a57a5a743894a0e4a801fc3'),
+(2, 'user', 'Amelia', 'Malang', 'amelia@gmail.com', '202cb962ac59075b964b07152d234b70');
 
 --
 -- Indexes for dumped tables
@@ -123,6 +172,18 @@ INSERT INTO `user` (`id`, `category`, `name`, `alamat`, `email`, `password`) VAL
 -- Indexes for table `brand`
 --
 ALTER TABLE `brand`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `komplain`
+--
+ALTER TABLE `komplain`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `komplain_reply`
+--
+ALTER TABLE `komplain_reply`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -160,6 +221,18 @@ ALTER TABLE `brand`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `komplain`
+--
+ALTER TABLE `komplain`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `komplain_reply`
+--
+ALTER TABLE `komplain_reply`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `pembelian`
 --
 ALTER TABLE `pembelian`
@@ -175,13 +248,13 @@ ALTER TABLE `produk`
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
