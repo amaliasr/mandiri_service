@@ -50,6 +50,7 @@
                     </div>
                     <div class="form-group">
                         <label>Brand</label>
+                        <br>
                         <select class="form-control" id="brand" name="brand">
                             <?php foreach ($brand as $key => $value) { ?>
                                 <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>

@@ -42,6 +42,7 @@
                     <input type="hidden" name="service_id" id="editServiceID">
                     <div class="form-group">
                         <label for="editStatus">Status</label>
+                        <br>
                         <select name="status" id="editStatus" class="form-control" required="required">
                             <option value="Mulai Pembenahan">Mulai Pembenahan</option>
                             <option value="Service Selesai">Service Selesai</option>
