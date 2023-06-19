@@ -58,6 +58,8 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <br>
+                        <br>
                         <label for="harga">Harga</label>
                         <input type="number" class="form-control" id="harga" name="harga">
                     </div>

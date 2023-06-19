@@ -175,4 +175,46 @@ class Admin extends CI_Controller
 
         echo json_encode(array('status' => 'success', 'message' => 'Service updated successfully.'));
     }
+    public function complaint()
+    {
+        $data['title'] = 'Komplain';
+        $this->template->views('admin/komplain', $data);
+    }
+    public function get_komplain()
+    {
+        $komplain = $this->User_model->get_all_komplain();
+        echo json_encode($komplain);
+    }
+
+    public function get_komplain_by_id()
+    {
+        $komplain_id = $this->input->post('komplain_id');
+        $komplain = $this->User_model->get_komplain_by_id($komplain_id);
+        if ($komplain) {
+            $response['komplain'] = $komplain;
+            echo json_encode($response);
+        } else {
+            echo json_encode(['message' => 'Komplain not found']);
+        }
+    }
+    public function get_balasan_id()
+    {
+        $komplain_id = $this->input->post('komplain_id');
+        $komplain = $this->User_model->get_balasan_by_id($komplain_id);
+        if ($komplain) {
+            $response['komplain'] = $komplain;
+            echo json_encode($response);
+        } else {
+            echo json_encode(['message' => 'Komplain not found']);
+        }
+    }
+    public function add_komplain()
+    {
+        $data = array(
+            'id_komplain' => $this->input->post('komplain_id'),
+            'balasan' => $this->input->post('balasan'),
+        );
+        $this->User_model->add_komplain($data);
+        echo json_encode(array('status' => 'success', 'message' => 'Balasan Komplain added successfully.'));
+    }
 }

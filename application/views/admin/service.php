@@ -37,7 +37,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body p-5">
+            <div class="modal-body p-5" style="height: 300px !important;">
                 <form id="formEditService" enctype="multipart/form-data">
                     <input type="hidden" name="service_id" id="editServiceID">
                     <div class="form-group">

@@ -21,6 +21,7 @@ class User_model extends CI_Model
         $this->db->select('produk.*, brand.name as brand_name');
         $this->db->from('produk');
         $this->db->join('brand', 'produk.id_brand = brand.id', 'left');
+        $this->db->order_by('produk.id', 'desc');
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -84,6 +85,7 @@ class User_model extends CI_Model
         $this->db->from('service');
         $this->db->join('brand', 'service.id_brand = brand.id', 'left');
         $this->db->join('user', 'service.id_user = user.id', 'left');
+        $this->db->order_by('service.id', 'desc');
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -102,5 +104,33 @@ class User_model extends CI_Model
     {
         $this->db->where('id', $id);
         return $this->db->update('service', $data);
+    }
+    public function get_all_komplain()
+    {
+        $this->db->select('komplain.*, user.name as user_name,COUNT(komplain_reply.id) AS total_balasan');
+        $this->db->from('komplain');
+        $this->db->join('user', 'komplain.id_user = user.id', 'left');
+        $this->db->join('komplain_reply', 'komplain.id = komplain_reply.id_komplain', 'left');
+        $this->db->group_by('komplain.id');
+        $this->db->order_by('komplain.id', 'desc');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function get_komplain_by_id($id)
+    {
+        $this->db->select('komplain.*, user.name as user_name');
+        $this->db->from('komplain');
+        $this->db->join('user', 'komplain.id_user = user.id', 'left');
+        $this->db->where('komplain.id', $id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+    public function get_balasan_by_id($id)
+    {
+        return $this->db->get_where('komplain_reply', array('id_komplain' => $id))->row();
+    }
+    public function add_komplain($data)
+    {
+        return $this->db->insert('komplain_reply', $data);
     }
 }

@@ -33,7 +33,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Add Brand</h4>
             </div>
-            <div class="modal-body p-5">
+            <div class="modal-body p-5" style="height: 100% !important;">
                 <form id="formAddBrand">
                     <div class="form-group">
                         <label for="type">Name</label>
@@ -58,7 +58,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body p-5">
+            <div class="modal-body p-5" style="height: 100% !important;">
                 <form id="formEditBrand" enctype="multipart/form-data">
                     <input type="hidden" name="brand_id" id="editBrandID">
                     <div class="form-group">
