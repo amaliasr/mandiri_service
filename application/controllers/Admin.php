@@ -144,7 +144,7 @@ class Admin extends CI_Controller
     public function service()
     {
         $data['title'] = 'Service';
-        $this->load->view('admin/service', $data);
+        $this->template->views('admin/service', $data);
     }
 
     public function get_services()
@@ -153,7 +153,7 @@ class Admin extends CI_Controller
         echo json_encode($services);
     }
 
-    public function get_service()
+    public function get_service_by_id()
     {
         $service_id = $this->input->post('service_id');
         $service = $this->User_model->get_service_by_id($service_id);

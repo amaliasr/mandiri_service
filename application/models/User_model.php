@@ -98,4 +98,9 @@ class User_model extends CI_Model
         $query = $this->db->get();
         return $query->row();
     }
+    public function update_service($id, $data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('service', $data);
+    }
 }
