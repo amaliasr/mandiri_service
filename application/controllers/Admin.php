@@ -141,4 +141,38 @@ class Admin extends CI_Controller
         $response = array('status' => 'success');
         echo json_encode($response);
     }
+    public function service()
+    {
+        $data['title'] = 'Service';
+        $this->load->view('admin/service', $data);
+    }
+
+    public function get_services()
+    {
+        $services = $this->User_model->get_all_services();
+        echo json_encode($services);
+    }
+
+    public function get_service()
+    {
+        $service_id = $this->input->post('service_id');
+        $service = $this->User_model->get_service_by_id($service_id);
+        if ($service) {
+            $response['service'] = $service;
+            echo json_encode($response);
+        } else {
+            echo json_encode(['message' => 'Service not found']);
+        }
+    }
+    public function update_service()
+    {
+        $data = array(
+            'status' => $this->input->post('status')
+        );
+
+        $service_id = $this->input->post('service_id');
+        $this->User_model->update_service($service_id, $data);
+
+        echo json_encode(array('status' => 'success', 'message' => 'Service updated successfully.'));
+    }
 }
