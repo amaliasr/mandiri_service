@@ -13,6 +13,8 @@
                         <input type="password" class="form-control" id="inputPassword" placeholder="Password">
                     </div>
                     <button class="btn btn-primary" id="btnLogin" onclick="login()">Login</button>
+                    <br>
+                    <a href="<?= base_url() ?>auth/register">Registrasi</a>
                 </div>
             </div>
         </div>
