@@ -27,7 +27,7 @@
     function login() {
         var email = $('#inputEmail').val();
         var password = $('#inputPassword').val();
-
+        var category = '<?= $this->session->userdata('id') ?>'
         $.ajax({
             url: '<?= base_url() ?>auth/doLogin',
             type: 'POST',
@@ -38,7 +38,11 @@
             success: function(response) {
                 if (response === 'success') {
                     alert('Login berhasil');
-                    window.location.href = '<?= base_url() ?>admin'
+                    if (category == 'admin') {
+                        window.location.href = '<?= base_url() ?>admin'
+                    } else {
+                        window.location.href = '<?= base_url() ?>home'
+                    }
                 } else {
                     alert('Login gagal');
                 }

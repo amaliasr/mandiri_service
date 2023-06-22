@@ -198,9 +198,9 @@
                                         <div class="nav-inner">
                                             <ul class="nav main-menu menu navbar-nav">
                                                 <?php if (is_user()) { ?>
-                                                    <li><a href="#">Home</a></li>
-                                                    <li><a href="#">Service</a></li>
-                                                    <li><a href="#">Contact Us</a></li>
+                                                    <li><a href="<?= base_url() ?>home">Home</a></li>
+                                                    <li><a href="<?= base_url() ?>home/service">Service</a></li>
+                                                    <li><a href="<?= base_url() ?>home/contact">Contact Us</a></li>
                                                 <?php } else { ?>
                                                     <li><a href="<?= base_url() ?>admin">Home</a></li>
                                                     <li><a href="<?= base_url() ?>admin/brand">Brand</a></li>

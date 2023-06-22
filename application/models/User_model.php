@@ -89,6 +89,17 @@ class User_model extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
+    public function get_all_services_by_user($id_user)
+    {
+        $this->db->select('service.*, brand.name as brand_name, user.name as user_name');
+        $this->db->from('service');
+        $this->db->join('brand', 'service.id_brand = brand.id', 'left');
+        $this->db->join('user', 'service.id_user = user.id', 'left');
+        $this->db->where('service.id_user', $id_user);
+        $this->db->order_by('service.id', 'desc');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 
     public function get_service_by_id($id)
     {
