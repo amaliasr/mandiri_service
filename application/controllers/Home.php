@@ -34,4 +34,19 @@ class Home extends CI_Controller
         $services = $this->User_model->get_all_services_by_user($this->session->userdata('id'));
         echo json_encode($services);
     }
+    public function get_komplain_by_user()
+    {
+        $komplain = $this->User_model->get_komplain_by_user($this->session->userdata('id'));
+        echo json_encode($komplain);
+    }
+    public function add_complaint()
+    {
+        $data = array(
+            'title' => $this->input->post('title'),
+            'detail' => $this->input->post('detail'),
+            'id_user' => $this->session->userdata('id'),
+        );
+        $this->User_model->add_komplain_user($data);
+        echo json_encode(array('status' => 'success', 'message' => 'Pertanyaan added successfully.'));
+    }
 }

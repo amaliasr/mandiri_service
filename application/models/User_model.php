@@ -131,6 +131,18 @@ class User_model extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
+    public function get_komplain_by_user($id_user)
+    {
+        $this->db->select('komplain.*, user.name as user_name,COUNT(komplain_reply.id) AS total_balasan');
+        $this->db->from('komplain');
+        $this->db->join('user', 'komplain.id_user = user.id', 'left');
+        $this->db->join('komplain_reply', 'komplain.id = komplain_reply.id_komplain', 'left');
+        $this->db->where('komplain.id_user', $id_user);
+        $this->db->group_by('komplain.id');
+        $this->db->order_by('komplain.id', 'desc');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     public function get_komplain_by_id($id)
     {
         $this->db->select('komplain.*, user.name as user_name');
@@ -147,6 +159,10 @@ class User_model extends CI_Model
     public function add_komplain($data)
     {
         return $this->db->insert('komplain_reply', $data);
+    }
+    public function add_komplain_user($data)
+    {
+        return $this->db->insert('komplain', $data);
     }
     public function add_service($data)
     {
