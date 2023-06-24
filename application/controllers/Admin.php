@@ -144,6 +144,8 @@ class Admin extends CI_Controller
     public function service()
     {
         $data['title'] = 'Service';
+        $data['brand'] = $this->User_model->get_all_brands();
+        $data['user'] = $this->User_model->get_all_users();
         $this->template->views('admin/service', $data);
     }
 
@@ -174,6 +176,19 @@ class Admin extends CI_Controller
         $this->User_model->update_service($service_id, $data);
 
         echo json_encode(array('status' => 'success', 'message' => 'Service updated successfully.'));
+    }
+    public function add_service()
+    {
+        $data = array(
+            'id_user' => $this->input->post('user'),
+            'id_brand' => $this->input->post('brand'),
+            'type' => $this->input->post('type'),
+            'name' => $this->input->post('name'),
+            'note' => $this->input->post('note'),
+            'status' => 'Menunggu',
+        );
+        $this->User_model->add_service($data);
+        echo json_encode(array('status' => 'success', 'message' => 'Service added successfully.'));
     }
     public function complaint()
     {

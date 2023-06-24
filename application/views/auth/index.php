@@ -27,7 +27,7 @@
     function login() {
         var email = $('#inputEmail').val();
         var password = $('#inputPassword').val();
-        var category = '<?= $this->session->userdata('id') ?>'
+        var category = '<?= $this->session->userdata('category') ?>'
         $.ajax({
             url: '<?= base_url() ?>auth/doLogin',
             type: 'POST',

@@ -58,6 +58,10 @@ class User_model extends CI_Model
     {
         return $this->db->get('brand')->result_array();
     }
+    public function get_all_users()
+    {
+        return $this->db->get('user')->result_array();
+    }
     public function add_brand($data)
     {
         return $this->db->insert('brand', $data);
@@ -143,5 +147,9 @@ class User_model extends CI_Model
     public function add_komplain($data)
     {
         return $this->db->insert('komplain_reply', $data);
+    }
+    public function add_service($data)
+    {
+        return $this->db->insert('service', $data);
     }
 }

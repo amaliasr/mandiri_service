@@ -4,6 +4,9 @@
             <h4>Service</h4>
         </div>
         <div class="col-md-12 p-5">
+            <button type="button" class="btn btn-primary mb-2" data-toggle="modal" href="#tambahServiceModal">
+                Add Service
+            </button>
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
@@ -55,6 +58,64 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="btnUpdateService">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Product Modal -->
+<div class="modal fade" id="tambahServiceModal" tabindex="-1" aria-labelledby="tambahServiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tambahServiceModalLabel">Service Baru</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-5" style="height: 100% !important;">
+                <form id="formTambahService" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>User</label>
+                        <br>
+                        <select class="form-control" id="user" name="user">
+                            <?php foreach ($user as $key => $value) {
+                                if ($value['category'] == 'user') { ?>
+                                    <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+                            <?php }
+                            } ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <br>
+                        <br>
+                        <label>Brand</label>
+                        <br>
+                        <select class="form-control" id="brand" name="brand">
+                            <?php foreach ($brand as $key => $value) { ?>
+                                <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <br>
+                        <br>
+                        <label for="type">Type</label>
+                        <input type="text" class="form-control" id="type" name="type">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <textarea name="name" id="name" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="note">Note</label>
+                        <textarea name="note" id="note" class="form-control" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnAddService">Add</button>
             </div>
         </div>
     </div>
@@ -127,6 +188,26 @@
             success: function(response) {
                 alert(JSON.parse(response).message);
                 $('#editServiceModal').modal('hide');
+                getData();
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
+    });
+    $(document).on('click', '#btnAddService', function(e) {
+        var form = $('#formTambahService')[0];
+        var formData = new FormData(form);
+
+        $.ajax({
+            url: '<?= base_url('admin/add_service') ?>',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                alert(JSON.parse(response).message);
+                $('#tambahServiceModal').modal('hide');
                 getData();
             },
             error: function(xhr, status, error) {

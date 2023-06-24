@@ -26,38 +26,7 @@
         </div>
     </div>
 </div>
-<!-- Edit Product Modal -->
-<div class="modal fade" id="editServiceModal" tabindex="-1" aria-labelledby="editServiceModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editServiceModalLabel">Edit Brand</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body p-5" style="height: 300px !important;">
-                <form id="formEditService" enctype="multipart/form-data">
-                    <input type="hidden" name="service_id" id="editServiceID">
-                    <div class="form-group">
-                        <label for="editStatus">Status</label>
-                        <br>
-                        <select name="status" id="editStatus" class="form-control" required="required">
-                            <option value="Mulai Pembenahan">Mulai Pembenahan</option>
-                            <option value="Service Selesai">Service Selesai</option>
-                            <option value="Barang Telah Diambil">Barang Telah Diambil</option>
-                        </select>
 
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="btnUpdateService">Update</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -94,7 +63,7 @@
         });
     }
 
-    function editData(service_id) {
+    function batalService(service_id) {
         $.ajax({
             url: "<?php echo base_url('admin/get_service_by_id'); ?>",
             method: "POST",
