@@ -7,13 +7,13 @@ class Auth extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        // if (is_login()) {
-        //     if (is_admin()) {
-        //         redirect('Admin');
-        //     } else {
-        //         redirect('Home');
-        //     }
-        // }
+        if (is_login()) {
+            if (is_admin()) {
+                redirect('Admin');
+            } else {
+                redirect('Home');
+            }
+        }
         $this->load->model('User_model');
     }
     public function index()
