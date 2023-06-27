@@ -53,7 +53,6 @@ class Home extends CI_Controller
     {
         $data = $this->User_model->getCartItems($this->session->userdata('id'));
         echo json_encode($data);
-        // echo $this->session->userdata('id');
     }
     public function add_cart()
     {
@@ -61,7 +60,17 @@ class Home extends CI_Controller
             'id_user' => $this->session->userdata('id'),
             'id_produk' => $this->input->post('id_produk'),
         );
-        $this->User_model->add_komplain_user($data);
+        $this->User_model->add_cart($data);
         echo json_encode(array('status' => 'success', 'message' => 'Cart updated successfully.'));
+    }
+    public function remove_cart()
+    {
+        $affected_rows = $this->User_model->remove_item($this->input->post('id_produk'), $this->session->userdata('id'));
+        if ($affected_rows > 0) {
+            $response = array('status' => 'success', 'message' => 'Item berhasil dihapus dari keranjang');
+        } else {
+            $response = array('status' => 'error', 'message' => 'Item tidak ditemukan atau gagal dihapus dari keranjang');
+        }
+        echo json_encode($response);
     }
 }

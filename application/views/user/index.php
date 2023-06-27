@@ -53,57 +53,23 @@
     </div>
 </div>
 <!-- Modal end -->
-<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
-        getData()
-    });
-
-    function getData() {
-        $('#brandTable').html('')
+    function addCart(id_produk) {
         $.ajax({
-            url: "<?php echo base_url('home/get_services'); ?>",
-            method: "GET",
-            dataType: "json",
-            success: function(response) {
-                var data = response;
-                var tableBody = $('#brandTable');
-                var a = 1
-                $.each(data, function(index, value) {
-                    var row = $('<tr>');
-                    row.append($('<td>').text(a));
-                    row.append($('<td>').text(value.user_name));
-                    row.append($('<td>').text(value.brand_name));
-                    row.append($('<td>').text(value.type));
-                    row.append($('<td>').text(value.name));
-                    row.append($('<td>').text(value.note));
-                    row.append($('<td>').text(value.status));
-                    a++
-                    tableBody.append(row);
-                });
-            },
-            error: function(xhr, status, error) {
-                console.log(xhr.responseText);
-            }
-        });
-    }
-
-    function batalService(service_id) {
-        $.ajax({
-            url: "<?php echo base_url('admin/get_service_by_id'); ?>",
+            url: "<?php echo base_url('home/add_cart'); ?>",
             method: "POST",
             data: {
-                service_id: service_id
+                id_produk: id_produk
             },
             dataType: "json",
             success: function(response) {
-                var brand = response.service;
-                $('#editServiceModal #editServiceID').val(brand.id);
-                $('#editServiceModal').modal('show');
+                alert(response.message);
+                getDataCart();
             },
             error: function(xhr, status, error) {
                 console.log(xhr.responseText);
             }
         });
     }
-</script> -->
+</script>

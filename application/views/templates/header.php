@@ -79,11 +79,11 @@
                                     <a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
                                 </div>
                                 <div class="sinlge-bar shopping">
-                                    <a href="#" class="single-icon"><i class="ti-bag"></i> <span class="total-count">2</span></a>
+                                    <a href="#" class="single-icon"><i class="ti-bag"></i> <span class="total-count jumlahCart">0</span></a>
                                     <!-- Shopping Item -->
                                     <div class="shopping-item">
                                         <div class="dropdown-cart-header">
-                                            <span><span id="jumlahCart"></span> Items</span>
+                                            <span><span class="jumlahCart"></span> Items</span>
                                             <a href="#">View Cart</a>
                                         </div>
                                         <ul class="shopping-list" id="shoppingList">
@@ -216,28 +216,52 @@
         getDataCart()
     });
 
+
     function getDataCart() {
+        var jumlah = 0
+        $('#shoppingList').html('')
         $.ajax({
             url: "<?php echo base_url('home/getCartItems'); ?>",
             method: "GET",
             dataType: "json",
             success: function(response) {
-                var data = response[0].keranjang
                 var html = ''
                 var total = 0
-                data.forEach(e => {
-                    var img = '<?= base_url() ?>upload/product/' + e.image
-                    html += '<li>'
-                    html += '<a href="#" class="remove" title="Remove this item"><i class="fa fa-remove"></i></a>'
-                    html += '<a class="cart-img" href="#"><img src="' + img + '" alt="#"></a>'
-                    html += '<h4><a href="#">' + e.nama_produk + '</a></h4>'
-                    html += '<p class="quantity">' + e.count + 'x - <span class="amount">' + e.total_harga.toLocaleString() + '</span></p>'
-                    html += '</li>'
-                    $('#shoppingList').html(html)
-                    total = total + parseInt(e.total_harga)
-                });
+                if (response[0] != undefined) {
+                    var data = response[0].keranjang
+                    data.forEach(e => {
+                        var img = '<?= base_url() ?>upload/product/' + e.image
+                        html += '<li>'
+                        html += '<a onclick="removeCart(' + e.id_produk + ')" class="remove" title="Remove this item"><i class="fa fa-remove"></i></a>'
+                        html += '<a class="cart-img" href="#"><img src="' + img + '" alt="#"></a>'
+                        html += '<h4><a href="#">' + e.nama_produk + '</a></h4>'
+                        html += '<p class="quantity">' + e.count + 'x - <span class="amount">' + e.total_harga.toLocaleString() + '</span></p>'
+                        html += '</li>'
+                        $('#shoppingList').html(html)
+                        total = total + parseInt(e.total_harga)
+                    });
+                    jumlah = data.length
+                }
                 $('#totalCart').html(total.toLocaleString())
-                $('#jumlahCart').html(data.length)
+                $('.jumlahCart').html(jumlah)
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
+    }
+
+    function removeCart(id_produk) {
+        $.ajax({
+            url: "<?php echo base_url('home/remove_cart'); ?>",
+            method: "POST",
+            data: {
+                id_produk: id_produk
+            },
+            dataType: "json",
+            success: function(response) {
+                alert(response.message);
+                getDataCart();
             },
             error: function(xhr, status, error) {
                 console.log(xhr.responseText);

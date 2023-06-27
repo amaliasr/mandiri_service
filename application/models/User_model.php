@@ -204,4 +204,15 @@ class User_model extends CI_Model
 
         return $result;
     }
+    public function add_cart($data)
+    {
+        return $this->db->insert('keranjang', $data);
+    }
+    public function remove_item($id_produk, $id_user)
+    {
+        $this->db->where('id_produk', $id_produk);
+        $this->db->where('id_user', $id_user);
+        $this->db->delete('keranjang');
+        return $this->db->affected_rows();
+    }
 }
