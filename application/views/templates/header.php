@@ -17,7 +17,7 @@
                     <div class="right-content">
                         <ul class="list-main">
                             <?php if (is_login()) { ?>
-                                <li><i class="ti-power-off"></i><a href="<?= base_url() ?>auth/logout">Logout</a></li>
+                                <li><i class="ti-power-off"></i><a href="<?= base_url() ?>logout">Logout</a></li>
                             <?php } ?>
                         </ul>
                     </div>
@@ -83,27 +83,16 @@
                                     <!-- Shopping Item -->
                                     <div class="shopping-item">
                                         <div class="dropdown-cart-header">
-                                            <span>2 Items</span>
+                                            <span><span id="jumlahCart"></span> Items</span>
                                             <a href="#">View Cart</a>
                                         </div>
-                                        <ul class="shopping-list">
-                                            <li>
-                                                <a href="#" class="remove" title="Remove this item"><i class="fa fa-remove"></i></a>
-                                                <a class="cart-img" href="#"><img src="https://via.placeholder.com/70x70" alt="#"></a>
-                                                <h4><a href="#">Woman Ring</a></h4>
-                                                <p class="quantity">1x - <span class="amount">$99.00</span></p>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="remove" title="Remove this item"><i class="fa fa-remove"></i></a>
-                                                <a class="cart-img" href="#"><img src="https://via.placeholder.com/70x70" alt="#"></a>
-                                                <h4><a href="#">Woman Necklace</a></h4>
-                                                <p class="quantity">1x - <span class="amount">$35.00</span></p>
-                                            </li>
+                                        <ul class="shopping-list" id="shoppingList">
+
                                         </ul>
                                         <div class="bottom">
                                             <div class="total">
                                                 <span>Total</span>
-                                                <span class="total-amount">$134.00</span>
+                                                <span class="total-amount" id="totalCart"></span>
                                             </div>
                                             <a href="checkout.html" class="btn animate">Checkout</a>
                                         </div>
@@ -221,3 +210,38 @@
     <?php } ?>
     <!--/ End Header Inner -->
 </header>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        getDataCart()
+    });
+
+    function getDataCart() {
+        $.ajax({
+            url: "<?php echo base_url('home/getCartItems'); ?>",
+            method: "GET",
+            dataType: "json",
+            success: function(response) {
+                var data = response[0].keranjang
+                var html = ''
+                var total = 0
+                data.forEach(e => {
+                    var img = '<?= base_url() ?>upload/product/' + e.image
+                    html += '<li>'
+                    html += '<a href="#" class="remove" title="Remove this item"><i class="fa fa-remove"></i></a>'
+                    html += '<a class="cart-img" href="#"><img src="' + img + '" alt="#"></a>'
+                    html += '<h4><a href="#">' + e.nama_produk + '</a></h4>'
+                    html += '<p class="quantity">' + e.count + 'x - <span class="amount">' + e.total_harga.toLocaleString() + '</span></p>'
+                    html += '</li>'
+                    $('#shoppingList').html(html)
+                    total = total + parseInt(e.total_harga)
+                });
+                $('#totalCart').html(total.toLocaleString())
+                $('#jumlahCart').html(data.length)
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
+    }
+</script>

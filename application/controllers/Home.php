@@ -49,4 +49,19 @@ class Home extends CI_Controller
         $this->User_model->add_komplain_user($data);
         echo json_encode(array('status' => 'success', 'message' => 'Pertanyaan added successfully.'));
     }
+    public function getCartItems()
+    {
+        $data = $this->User_model->getCartItems($this->session->userdata('id'));
+        echo json_encode($data);
+        // echo $this->session->userdata('id');
+    }
+    public function add_cart()
+    {
+        $data = array(
+            'id_user' => $this->session->userdata('id'),
+            'id_produk' => $this->input->post('id_produk'),
+        );
+        $this->User_model->add_komplain_user($data);
+        echo json_encode(array('status' => 'success', 'message' => 'Cart updated successfully.'));
+    }
 }

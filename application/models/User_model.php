@@ -168,4 +168,40 @@ class User_model extends CI_Model
     {
         return $this->db->insert('service', $data);
     }
+    public function getCartItems($id_user)
+    {
+        $this->db->select('user.id as id_user, user.name, keranjang.id_produk, COUNT(*) as count, COUNT(*) * produk.harga as total_harga, produk.image,produk.name as nama_produk');
+        $this->db->from('keranjang');
+        $this->db->join('user', 'user.id = keranjang.id_user', 'left');
+        $this->db->join('produk', 'produk.id = keranjang.id_produk', 'left');
+        $this->db->where('user.id', $id_user);
+        $this->db->group_by('user.id, keranjang.id_produk');
+        $query = $this->db->get();
+
+        $result = array();
+
+        foreach ($query->result() as $row) {
+            $item = array(
+                'id_produk' => $row->id_produk,
+                'nama_produk' => $row->nama_produk,
+                'count' => $row->count,
+                'total_harga' => $row->total_harga,
+                'image' => $row->image
+            );
+
+            $userIndex = array_search($row->id_user, array_column($result, 'id_user'));
+
+            if ($userIndex !== false) {
+                $result[$userIndex]['keranjang'][] = $item;
+            } else {
+                $result[] = array(
+                    'id_user' => $row->id_user,
+                    'nama' => $row->name,
+                    'keranjang' => array($item)
+                );
+            }
+        }
+
+        return $result;
+    }
 }
