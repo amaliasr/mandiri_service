@@ -42,6 +42,11 @@ class User_model extends CI_Model
         $this->db->where('id', $id);
         return $this->db->update('produk', $data);
     }
+    public function update_user($id, $data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('user', $data);
+    }
 
     public function delete_product($id)
     {
@@ -214,5 +219,29 @@ class User_model extends CI_Model
         $this->db->where('id_user', $id_user);
         $this->db->delete('keranjang');
         return $this->db->affected_rows();
+    }
+    public function get_cart($id_user)
+    {
+        $this->db->select('*');
+        $this->db->from('keranjang');
+        $this->db->where('id_user', $id_user);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function add_pembayaran($data)
+    {
+        $this->db->insert('pembelian', $data);
+        return $this->db->insert_id();
+    }
+    public function add_pembelian_detail($data)
+    {
+        $this->db->insert('pembelian_detail', $data);
+        return $this->db->insert_id();
+    }
+
+    public function remove_cart($id_user)
+    {
+        $this->db->where('id_user', $id_user);
+        $this->db->delete('keranjang');
     }
 }

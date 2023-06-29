@@ -29,6 +29,11 @@ class Home extends CI_Controller
         $data['title'] = 'Contact Us';
         $this->template->views('user/contact', $data);
     }
+    public function order()
+    {
+        $data['title'] = 'Order';
+        $this->template->views('user/order', $data);
+    }
     public function checkout()
     {
         $data['title'] = 'Checkout';
@@ -77,6 +82,79 @@ class Home extends CI_Controller
         } else {
             $response = array('status' => 'error', 'message' => 'Item tidak ditemukan atau gagal dihapus dari keranjang');
         }
+        echo json_encode($response);
+    }
+    public function processCheckout()
+    {
+        // Mengambil data form
+        $name = $this->input->post('name');
+        $phone = $this->input->post('phone');
+        $alamat = $this->input->post('alamat');
+        $payment = $this->input->post('payment');
+        $kodePembayaran = 'PAY' . date('YmdHis');
+        $tipe_pembayaran = 'COD';
+        if ($payment[0] == 1) {
+            $tipe_pembayaran = 'Transfer';
+        }
+        // Mengunggah gambar
+        $imagePath = '';
+        if (!empty($_FILES['image']['name'])) {
+            $config['upload_path'] = './upload/bukti';
+            $config['allowed_types'] = 'jpg|jpeg|png';
+            $config['max_size'] = 2048; // maksimum 2MB
+            $config['encrypt_name'] = true;
+            $config['file_name'] = uniqid();
+
+            $this->load->library('upload', $config);
+
+            if ($this->upload->do_upload('image')) {
+                $uploadData = $this->upload->data();
+                $imagePath = $uploadData['file_name'];
+            } else {
+                $response['success'] = false;
+                $response['message'] = 'Failed to upload image: ' . $this->upload->display_errors('', '');
+                echo json_encode($response);
+                return;
+            }
+        }
+
+        // Proses penyimpanan data ke database
+        $dataUser = array(
+            'name' => $name,
+            'phone' => $phone,
+            'alamat' => $alamat,
+        );
+        $id_user = $this->session->userdata('id');
+        $this->User_model->update_user($id_user, $dataUser);
+        $dataPembelian = array(
+            'id_user' => $id_user,
+            'tgl_pembelian' => date('Y-m-d'),
+            'id_tipe_pembayaran' => $tipe_pembayaran,
+            'kode_pembelian' => $kodePembayaran,
+            'alamat' => $alamat,
+            'bukti_pembayaran' => $imagePath,
+            'status' => 'Process',
+        );
+        $this->User_model->add_pembayaran($dataPembelian);
+        $id_pembelian = $this->db->insert_id();
+        // Insert data pembelian_detail
+        $cart = $this->User_model->get_cart($id_user);
+        foreach ($cart as $item) {
+            $dataPembelianDetail = array(
+                'id_pembelian' => $id_pembelian,
+                'id_produk' => $item['id_produk'],
+            );
+            $this->User_model->add_pembelian_detail($dataPembelianDetail);
+        }
+
+        // Hapus data cart
+        $this->User_model->remove_cart($id_user);
+
+        // ...
+
+        // Mengembalikan response
+        $response['success'] = true;
+        $response['message'] = 'Checkout processed successfully';
         echo json_encode($response);
     }
 }

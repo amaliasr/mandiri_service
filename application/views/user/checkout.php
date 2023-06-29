@@ -7,7 +7,7 @@
                     <h2>Make Your Checkout Here</h2>
                     <p>Please check your data in order to checkout more quickly</p>
                     <!-- Form -->
-                    <form class="form">
+                    <form class="form" id="checkoutForm">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-12">
                                 <div class="form-group">
@@ -18,7 +18,7 @@
                             <div class="col-lg-6 col-md-6 col-12">
                                 <div class="form-group">
                                     <label>Email Address<span>*</span></label>
-                                    <input type="email" name="email" id="email" placeholder="" required="required" value="<?= $this->session->userdata('email') ?>">
+                                    <input type="email" name="email" id="email" placeholder="" required="required" value="<?= $this->session->userdata('email') ?>" disabled>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-12">
@@ -78,6 +78,8 @@
                             </div>
                         </div>
                     </div>
+
+
                     <!--/ End Order Widget -->
                     <!-- Payment Method Widget -->
                     <!--/ End Payment Method Widget -->
@@ -85,7 +87,7 @@
                     <div class="single-widget get-button">
                         <div class="content">
                             <div class="button">
-                                <a style="cursor: pointer;" class="btn" onclick="checkout()">proceed to checkout</a>
+                                <a style="cursor: pointer;" class="btn" onclick="submitForm()">proceed to checkout</a>
                             </div>
                         </div>
                     </div>
@@ -108,17 +110,42 @@
         }
     }
 
+    function submitForm() {
+        if (confirm('Apakah Anda ingin langsung checkout?')) {
+            // Melakukan proses checkout
+            checkout();
+        }
+    }
+
     function checkout() {
+        var formData = new FormData(document.getElementById('checkoutForm'));
+        var image = document.getElementById('image').files[0];
+        formData.append('image', image);
+
+        // Mengambil nilai checkbox
+        var paymentCheckbox = document.getElementsByName('payment');
+        var paymentValues = [];
+        for (var i = 0; i < paymentCheckbox.length; i++) {
+            if (paymentCheckbox[i].checked) {
+                paymentValues.push(paymentCheckbox[i].value);
+            }
+        }
+        formData.append('payment', paymentValues);
+
         $.ajax({
-            url: "<?php echo base_url('home/add_cart'); ?>",
-            method: "POST",
-            data: {
-                id_produk: id_produk
-            },
+            url: "<?php echo base_url('home/processCheckout'); ?>",
+            type: "POST",
+            data: formData,
             dataType: "json",
+            contentType: false,
+            processData: false,
             success: function(response) {
-                alert(response.message);
-                getDataCart();
+                if (response.success) {
+                    alert(response.message);
+                    window.location.href = "<?= base_url('home/order'); ?>";
+                } else {
+                    alert(response.message);
+                }
             },
             error: function(xhr, status, error) {
                 console.log(xhr.responseText);
