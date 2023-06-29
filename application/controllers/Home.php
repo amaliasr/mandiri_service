@@ -29,6 +29,12 @@ class Home extends CI_Controller
         $data['title'] = 'Contact Us';
         $this->template->views('user/contact', $data);
     }
+    public function checkout()
+    {
+        $data['title'] = 'Checkout';
+        $data['cart'] =  $this->User_model->getCartItems($this->session->userdata('id'));
+        $this->template->views('user/checkout', $data);
+    }
     public function get_services()
     {
         $services = $this->User_model->get_all_services_by_user($this->session->userdata('id'));

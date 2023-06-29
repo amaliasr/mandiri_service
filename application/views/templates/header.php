@@ -94,7 +94,7 @@
                                                 <span>Total</span>
                                                 <span class="total-amount" id="totalCart"></span>
                                             </div>
-                                            <a href="checkout.html" class="btn animate">Checkout</a>
+                                            <a href="<?= base_url() ?>home/checkout" class="btn animate">Checkout</a>
                                         </div>
                                     </div>
                                     <!--/ End Shopping Item -->
@@ -189,6 +189,7 @@
                                                 <?php if (is_user()) { ?>
                                                     <li><a href="<?= base_url() ?>home">Home</a></li>
                                                     <li><a href="<?= base_url() ?>home/service">Service</a></li>
+                                                    <li><a href="<?= base_url() ?>home/order">Orders</a></li>
                                                     <li><a href="<?= base_url() ?>home/contact">Contact Us</a></li>
                                                 <?php } else { ?>
                                                     <li><a href="<?= base_url() ?>admin">Home</a></li>
