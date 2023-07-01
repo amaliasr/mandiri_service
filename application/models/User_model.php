@@ -251,14 +251,16 @@ class User_model extends CI_Model
         $this->db->where('id_user', $id_user);
         $this->db->delete('keranjang');
     }
-    public function get_pembelian_detail($id_user)
+    public function get_pembelian_detail($id_user = '')
     {
         $this->db->select('pembelian.id as id_pembelian,pembelian.tgl_pembelian, pembelian.id_tipe_pembayaran, pembelian.id_user, user.name, pembelian.kode_pembelian, pembelian.bukti_pembayaran, pembelian.status, pembelian_detail.id_produk,pembelian_detail.price, produk.name as nama_produk, COUNT(pembelian_detail.id_produk) AS count');
         $this->db->from('pembelian');
         $this->db->join('user', 'user.id = pembelian.id_user', 'left');
         $this->db->join('pembelian_detail', 'pembelian_detail.id_pembelian = pembelian.id', 'left');
         $this->db->join('produk', 'produk.id = pembelian_detail.id_produk', 'left');
-        $this->db->where('pembelian.id_user', $id_user);
+        if ($id_user != '') {
+            $this->db->where('pembelian.id_user', $id_user);
+        }
         $this->db->group_by('pembelian_detail.id_pembelian, pembelian_detail.id_produk');
         $this->db->order_by('pembelian.id', 'desc');
         $query = $this->db->get();

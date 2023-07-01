@@ -196,6 +196,7 @@
                                                     <li><a href="<?= base_url() ?>admin/brand">Brand</a></li>
                                                     <li><a href="<?= base_url() ?>admin/product">Product</a></li>
                                                     <li><a href="<?= base_url() ?>admin/service">Service</a></li>
+                                                    <li><a href="<?= base_url() ?>admin/order">Orders</a></li>
                                                     <li><a href="<?= base_url() ?>admin/complaint">Complaint</a></li>
                                                 <?php } ?>
                                             </ul>

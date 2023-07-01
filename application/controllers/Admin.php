@@ -232,4 +232,10 @@ class Admin extends CI_Controller
         $this->User_model->add_komplain($data);
         echo json_encode(array('status' => 'success', 'message' => 'Balasan Komplain added successfully.'));
     }
+    public function order()
+    {
+        $data['title'] = 'Order';
+        $data['order'] = $this->User_model->get_pembelian_detail();
+        $this->template->views('admin/order', $data);
+    }
 }
