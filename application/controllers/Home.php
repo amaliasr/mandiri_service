@@ -32,6 +32,7 @@ class Home extends CI_Controller
     public function order()
     {
         $data['title'] = 'Order';
+        $data['order'] = $this->User_model->get_pembelian_detail($this->session->userdata('id'));
         $this->template->views('user/order', $data);
     }
     public function checkout()
@@ -143,6 +144,7 @@ class Home extends CI_Controller
             $dataPembelianDetail = array(
                 'id_pembelian' => $id_pembelian,
                 'id_produk' => $item['id_produk'],
+                'price' => $item['harga'],
             );
             $this->User_model->add_pembelian_detail($dataPembelianDetail);
         }

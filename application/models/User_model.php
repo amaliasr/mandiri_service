@@ -222,9 +222,10 @@ class User_model extends CI_Model
     }
     public function get_cart($id_user)
     {
-        $this->db->select('*');
+        $this->db->select('keranjang.*, produk.harga');
         $this->db->from('keranjang');
-        $this->db->where('id_user', $id_user);
+        $this->db->join('produk', 'produk.id = keranjang.id_produk', 'left');
+        $this->db->where('keranjang.id_user', $id_user);
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -243,5 +244,52 @@ class User_model extends CI_Model
     {
         $this->db->where('id_user', $id_user);
         $this->db->delete('keranjang');
+    }
+    public function get_pembelian_detail($id_user)
+    {
+        $this->db->select('pembelian.id as id_pembelian,pembelian.tgl_pembelian, pembelian.id_tipe_pembayaran, pembelian.id_user, user.name, pembelian.kode_pembelian, pembelian.bukti_pembayaran, pembelian.status, pembelian_detail.id_produk,pembelian_detail.price, produk.name as nama_produk, COUNT(pembelian_detail.id_produk) AS count');
+        $this->db->from('pembelian');
+        $this->db->join('user', 'user.id = pembelian.id_user', 'left');
+        $this->db->join('pembelian_detail', 'pembelian_detail.id_pembelian = pembelian.id', 'left');
+        $this->db->join('produk', 'produk.id = pembelian_detail.id_produk', 'left');
+        $this->db->where('pembelian.id_user', $id_user);
+        $this->db->group_by('pembelian_detail.id_pembelian, pembelian_detail.id_produk');
+        $this->db->order_by('pembelian.id', 'desc');
+        $query = $this->db->get();
+
+        $result = array();
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $id_pembelian = $row->id_pembelian;
+
+                if (!isset($result[$id_pembelian])) {
+                    $data = array(
+                        'tgl_pembelian' => $row->tgl_pembelian,
+                        'tipe_pembayaran' => $row->id_tipe_pembayaran,
+                        'id_user' => $row->id_user,
+                        'name' => $row->name,
+                        'kode_pembelian' => $row->kode_pembelian,
+                        'bukti_pembayaran' => $row->bukti_pembayaran,
+                        'status' => $row->status,
+                        'detail' => array()
+                    );
+
+                    $result[$id_pembelian] = $data;
+                }
+
+                if (!empty($row->id_produk) && !empty($row->nama_produk)) {
+                    $detail = array(
+                        'id_produk' => $row->id_produk,
+                        'count' => $row->count,
+                        'nama_produk' => $row->nama_produk,
+                        'price' => $row->price,
+                    );
+
+                    $result[$id_pembelian]['detail'][] = $detail;
+                }
+            }
+        }
+
+        return array_values($result);
     }
 }
