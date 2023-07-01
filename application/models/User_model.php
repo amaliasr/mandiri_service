@@ -173,6 +173,12 @@ class User_model extends CI_Model
     {
         return $this->db->insert('service', $data);
     }
+    public function update_stok($id_produk, $jumlah_produk)
+    {
+        $this->db->set('stok', 'stok - ' . $jumlah_produk, false);
+        $this->db->where('id', $id_produk);
+        $this->db->update('produk');
+    }
     public function getCartItems($id_user)
     {
         $this->db->select('user.id as id_user, user.name, keranjang.id_produk, COUNT(*) as count, COUNT(*) * produk.harga as total_harga, produk.image,produk.name as nama_produk');

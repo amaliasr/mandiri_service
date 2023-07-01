@@ -141,6 +141,11 @@ class Home extends CI_Controller
         // Insert data pembelian_detail
         $cart = $this->User_model->get_cart($id_user);
         foreach ($cart as $item) {
+            $id_produk = $item['id_produk'];
+            $jumlah_produk = 1;
+            $this->User_model->update_stok($id_produk, $jumlah_produk); // Fungsi untuk mengurangi stok produk
+        }
+        foreach ($cart as $item) {
             $dataPembelianDetail = array(
                 'id_pembelian' => $id_pembelian,
                 'id_produk' => $item['id_produk'],
