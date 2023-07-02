@@ -19,7 +19,11 @@
                             </a>
                             <div class="button-head">
                                 <div class="product-action-2">
-                                    <a title="Add to cart" onclick="addCart(<?= $value['id'] ?>)">Add to cart</a>
+                                    <?php if ($value['stok'] > 0) { ?>
+                                        <a title="Add to cart" onclick="addCart(<?= $value['id'] ?>)">Add to cart</a>
+                                    <?php } else { ?>
+                                        <i class="text-danger">Sold Out</i>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>

@@ -39,9 +39,9 @@ class Auth extends CI_Controller
             $this->session->set_userdata('alamat', $user->alamat);
             $this->session->set_userdata('email', $user->email);
             $this->session->set_userdata('phone', $user->phone);
-            echo 'success';
+            echo json_encode(array('status' => 'success', 'message' => 'Login successfully.', 'category' => $user->category));
         } else {
-            echo 'error';
+            echo json_encode(array('status' => 'error', 'message' => 'Login Failed'));
         }
     }
     public function logout()

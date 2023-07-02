@@ -36,9 +36,10 @@
                 password: password
             },
             success: function(response) {
-                if (response === 'success') {
+                var data = JSON.parse(response)
+                if (data.status === 'success') {
                     alert('Login berhasil');
-                    if (category == 'admin') {
+                    if (data.category == 'admin') {
                         window.location.href = '<?= base_url() ?>admin'
                     } else {
                         window.location.href = '<?= base_url() ?>home'
