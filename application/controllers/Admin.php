@@ -235,7 +235,33 @@ class Admin extends CI_Controller
     public function order()
     {
         $data['title'] = 'Order';
-        $data['order'] = $this->User_model->get_pembelian_detail();
         $this->template->views('admin/order', $data);
+    }
+    public function get_order()
+    {
+        $data = $this->User_model->get_pembelian_detail();
+        echo json_encode($data);
+    }
+    public function get_order_by_id()
+    {
+        $id = $this->input->post('id');
+        $data = $this->User_model->get_order_by_id($id);
+        if ($data) {
+            $response['order'] = $data;
+            echo json_encode($response);
+        } else {
+            echo json_encode(['message' => 'Order not found']);
+        }
+    }
+    public function update_order()
+    {
+        $data = array(
+            'status' => $this->input->post('status')
+        );
+
+        $id = $this->input->post('id');
+        $this->User_model->update_order($id, $data);
+
+        echo json_encode(array('status' => 'success', 'message' => 'Order updated successfully.'));
     }
 }

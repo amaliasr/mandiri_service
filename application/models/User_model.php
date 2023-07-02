@@ -77,6 +77,11 @@ class User_model extends CI_Model
         $this->db->where('id', $id);
         return $this->db->update('brand', $data);
     }
+    public function update_order($id, $data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('pembelian', $data);
+    }
 
     public function delete_brand($id)
     {
@@ -160,6 +165,10 @@ class User_model extends CI_Model
     public function get_balasan_by_id($id)
     {
         return $this->db->get_where('komplain_reply', array('id_komplain' => $id))->row();
+    }
+    public function get_order_by_id($id)
+    {
+        return $this->db->get_where('pembelian', array('id' => $id))->row();
     }
     public function add_komplain($data)
     {
@@ -272,6 +281,7 @@ class User_model extends CI_Model
 
                 if (!isset($result[$id_pembelian])) {
                     $data = array(
+                        'id' => $row->id_pembelian,
                         'tgl_pembelian' => $row->tgl_pembelian,
                         'tipe_pembayaran' => $row->id_tipe_pembayaran,
                         'id_user' => $row->id_user,
