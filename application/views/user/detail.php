@@ -16,11 +16,13 @@
                 <div class="col">
                     <b><?= $value['brand_name'] ?></b>
                     <h3><a href="<?= base_url() ?>home/detail/<?= $value['id'] ?>"><?= $value['name'] ?></a></h3>
-                    <div class="product-price">
+                    <div class="product-price mb-5">
                         <span>Rp. <?= number_format($value['harga']) ?></span>
                     </div>
 
-                    <button type="button" class="btn btn-default btn-primary mt-5" onclick="addCart(<?= $value['id'] ?>)">Add to cart</button>
+                    <b class="mt-5">Stok : <?= $value['stok'] ?></b>
+                    <br>
+                    <button type="button" class="btn btn-default btn-primary" onclick="addCart(<?= $value['id'] ?>)">Add to cart</button>
 
                 </div>
             <?php } ?>
