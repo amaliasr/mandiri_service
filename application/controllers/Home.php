@@ -19,6 +19,12 @@ class Home extends CI_Controller
         $data['products'] = $this->User_model->get_all_products();
         $this->template->views('user/index', $data);
     }
+    public function detail($id)
+    {
+        $data['title'] = 'Detail Product';
+        $data['products'] = $this->User_model->get_all_products_by_id($id);
+        $this->template->views('user/detail', $data);
+    }
     public function service()
     {
         $data['title'] = 'Service';

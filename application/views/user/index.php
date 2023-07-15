@@ -13,7 +13,7 @@
                 <div class="col-xl-3 col-lg-4 col-md-4 col-12">
                     <div class="single-product">
                         <div class="product-img">
-                            <a href="product-details.html">
+                            <a href="<?= base_url() ?>home/detail/<?= $value['id'] ?>">
                                 <img class="default-img" src="<?= base_url() ?>upload/product/<?= $value['image'] ?>" alt="#" style="width:250px;height:250px;object-fit:cover">
                                 <img class="hover-img" src="<?= base_url() ?>upload/product/<?= $value['image'] ?>" alt="#" style="width:250px;height:250px;object-fit:cover">
                             </a>
@@ -29,7 +29,7 @@
                         </div>
                         <div class="product-content">
                             <b><?= $value['brand_name'] ?></b>
-                            <h3><a href="product-details.html"><?= $value['name'] ?></a></h3>
+                            <h3><a href="<?= base_url() ?>home/detail/<?= $value['id'] ?>"><?= $value['name'] ?></a></h3>
                             <div class="product-price">
                                 <span>Rp. <?= number_format($value['harga']) ?></span>
                             </div>

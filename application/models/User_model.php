@@ -25,6 +25,16 @@ class User_model extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
+    public function get_all_products_by_id($id_produk)
+    {
+        $this->db->select('produk.*, brand.name as brand_name');
+        $this->db->from('produk');
+        $this->db->join('brand', 'produk.id_brand = brand.id', 'left');
+        $this->db->order_by('produk.id', 'desc');
+        $this->db->where('produk.id', $id_produk);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 
 
     public function get_product_by_id($id)
