@@ -64,10 +64,27 @@
                     <div class="single-widget">
                         <h2>Payments</h2>
                         <div class="content">
-                            <div class="checkbox">
-                                <label class="checkbox-inline" for="1"><input name="payment" id="1" value="1" type="checkbox" onclick="payment(1)"> Transfer</label>
-                                <label class="checkbox-inline" for="2"><input name="payment" id="2" value="2" type="checkbox" onclick="payment(2)"> Cash On Delivery</label>
+                            <div class="row pl-4 mt-4">
+                                <div class="col-12 ml-4">
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="payment" id="payment1" value="1" onclick="payment(1)">
+                                        <label class="form-check-label" for="payment1">
+                                            Transfer
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="payment" id="payment2" value="2" onclick="payment(2)">
+                                        <label class="form-check-label" for="payment2">
+                                            Cash On Delivery
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
+                            <!-- <div class="checkbox">
+                                <label class="checkbox-inline" for="1"><input name="payment" id="1" value="1" type="radio" onclick="payment(1)"> Transfer</label>
+                                <label class="checkbox-inline" for="2"><input name="payment" id="2" value="2" type="radio" onclick="payment(2)"> Cash On Delivery</label>
+                            </div> -->
                         </div>
                     </div>
                     <div class="single-widget" id="showTransfer" hidden>
@@ -101,13 +118,13 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function payment(code) {
-        if (code == 1) {
-            if ($('[name="payment"][value="1"]').is(':checked')) {
-                $('#showTransfer').removeAttr('hidden');
-            } else {
-                $('#showTransfer').attr('hidden', true);
-            }
+        // if (code == 1) {
+        if ($('[name="payment"][value="1"]').is(':checked')) {
+            $('#showTransfer').removeAttr('hidden');
+        } else {
+            $('#showTransfer').attr('hidden', true);
         }
+        // }
     }
 
     function submitForm() {
