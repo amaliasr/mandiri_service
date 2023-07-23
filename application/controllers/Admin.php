@@ -291,6 +291,34 @@ class Admin extends CI_Controller
         $this->User_model->add_spare_part($data);
         echo json_encode(array('status' => 'success', 'message' => 'Spare Part added successfully.'));
     }
+    public function add_spare_part_service()
+    {
+        $spare_part_id = $this->input->post('spare_part_id');
+        $dataSP = $this->User_model->get_spare_part_id($spare_part_id);
+        $data = array(
+            'service_id' => $this->input->post('service_id'),
+            'spare_part_id' => $spare_part_id,
+            'qty' => $this->input->post('qty'),
+            'biaya' => $dataSP->biaya_beli,
+        );
+        // update
+        $dataUpdate = array(
+            'stok' => ($dataSP->stok - $this->input->post('qty')),
+        );
+        $this->User_model->update_spare_part($spare_part_id, $dataUpdate);
+        $this->User_model->add_spare_part_service($data);
+        $dataTampil = $this->User_model->get_spare_part_service_id($this->input->post('service_id'));
+        echo json_encode(array('status' => 'success', 'message' => 'Spare Part added successfully.', 'data' => $dataTampil));
+    }
+    public function delete_spare_part_service()
+    {
+        $id = $this->input->post('id');
+        $service_id = $this->input->post('service_id');
+        $this->User_model->delete_spare_part_service($id);
+        $dataTampil = $this->User_model->get_spare_part_service_id($service_id);
+        $response = array('status' => 'success', 'message' => 'Spare Part deleted successfully.', 'data' => $dataTampil);
+        echo json_encode($response);
+    }
     public function update_spare_part()
     {
         $data = array(
@@ -314,6 +342,15 @@ class Admin extends CI_Controller
         } else {
             echo json_encode(['message' => 'Spare Part not found']);
         }
+    }
+    public function get_spare_part_service_id()
+    {
+        $id = $this->input->post('id');
+        $data = $this->User_model->get_spare_part_service_id($id);
+        $data2 = $this->User_model->get_spare_part();
+        $response['service'] = $data;
+        $response['listPart'] = $data2;
+        echo json_encode($response);
     }
     public function delete_spare_part()
     {

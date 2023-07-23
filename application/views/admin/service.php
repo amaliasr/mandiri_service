@@ -35,7 +35,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editServiceModalLabel">Edit Brand</h5>
+                <h5 class="modal-title" id="editServiceModalLabel">Edit Status</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -120,6 +120,25 @@
         </div>
     </div>
 </div>
+<!-- Spare Part -->
+<div class="modal fade" id="editSparePart" tabindex="-1" aria-labelledby="editSparePartLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editSparePartLabel">Spare Part</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-5" style="height: 100% !important;" id="isiBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -146,7 +165,7 @@
                     row.append($('<td>').text(value.name));
                     row.append($('<td>').text(value.note));
                     row.append($('<td>').text(value.status));
-                    row.append($('<td>').html('<button class="btn btn-sm bg-warning" onclick="editData(' + value.id + ')">Ubah Status</button>'));
+                    row.append($('<td>').html('<button class="btn btn-sm bg-warning" onclick="editData(' + value.id + ')">Ubah Status</button><button class="btn btn-sm bg-danger" onclick="sparePart(' + value.id + ')">Spare Part</button>'));
                     a++
                     tableBody.append(row);
                 });
@@ -174,6 +193,79 @@
                 console.log(xhr.responseText);
             }
         });
+    }
+
+    function sparePart(id) {
+        $.ajax({
+            url: "<?php echo base_url('admin/get_spare_part_service_id'); ?>",
+            method: "POST",
+            data: {
+                id: id
+            },
+            dataType: "json",
+            success: function(response) {
+                $('#editSparePart').modal('show');
+                var data = response;
+                var html = ''
+                html += '<div class="row">'
+                html += '<div class="col-12">'
+
+                html += '<table class="table table-bordered table-hover">'
+                html += '<thead>'
+                html += '<tr>'
+                html += '<th>#</th>'
+                html += '<th>Nama</th>'
+                html += '<th>QTY</th>'
+                html += '<th>Harga</th>'
+                html += '<th>Action</th>'
+                html += '</tr>'
+                html += '</thead>'
+                html += '<tbody id="ListSP">'
+                html += '</tbody>'
+                html += '</table>'
+
+                html += '</div>'
+                html += '</div>'
+                html += '<br>'
+                html += '<p class="mb-3"><b>Tambah Spare Part</b></p>'
+                html += '<form id="formTambahSP" enctype="multipart/form-data">'
+                html += '<input type="hidden" name="service_id" id="sparePartId" value="' + id + '">'
+                html += '<div class="form-group">'
+                html += '<label for="spare_part_id">Spare Part</label>'
+                html += '<select name="spare_part_id" id="spare_part_id" class="form-control" required="required">'
+                data.listPart.forEach(e => {
+                    html += '<option value="' + e.id + '">' + e.nama_spare_part + '</option>'
+                });
+                html += '</select>'
+                html += '</div>'
+                html += '<div class="form-group">'
+                html += '<label for="qty">QTY</label>'
+                html += '<input type="number" class="form-control" id="qty" name="qty">'
+                html += '</div>'
+                html += '<button type="button" class="btn btn-primary" id="btnTambahSP">Tambah</button>'
+                html += '</form>'
+                $('#isiBody').html(html)
+                listSP(data.service, id)
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
+    }
+
+    function listSP(data, service_id) {
+        var html = ''
+        var a = 1
+        data.forEach(e => {
+            html += '<tr>'
+            html += '<td>' + a++ + '</td>'
+            html += '<td>' + e.nama_spare_part + '</td>'
+            html += '<td>' + e.qty + '</td>'
+            html += '<td>' + e.biaya + '</td>'
+            html += '<td><button class="btn btn-sm bg-danger" onclick="hapusDataSP(' + e.id + ',' + service_id + ')"><i class="fa fa-trash"></i></button></td>'
+            html += '</tr>'
+        });
+        $('#ListSP').html(html)
     }
     $(document).on('click', '#btnUpdateService', function(e) {
         var form = $('#formEditService')[0];
@@ -215,4 +307,44 @@
             }
         });
     });
+    $(document).on('click', '#btnTambahSP', function(e) {
+        var form = $('#formTambahSP')[0];
+        var formData = new FormData(form);
+
+        $.ajax({
+            url: '<?= base_url('admin/add_spare_part_service') ?>',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                alert(JSON.parse(response).message);
+                listSP(JSON.parse(response).data)
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
+    });
+
+    function hapusDataSP(id, service_id) {
+        if (confirm('Are you sure you want to delete this Spare Part?')) {
+            $.ajax({
+                url: "<?php echo base_url('admin/delete_spare_part_service'); ?>",
+                method: "POST",
+                data: {
+                    id: id,
+                    service_id: service_id,
+                },
+                dataType: "json",
+                success: function(response) {
+                    alert(response.message);
+                    listSP(response.data)
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+    }
 </script>

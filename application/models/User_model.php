@@ -282,11 +282,21 @@ class User_model extends CI_Model
         $this->db->insert('pembelian_detail', $data);
         return $this->db->insert_id();
     }
+    public function add_spare_part_service($data)
+    {
+        $this->db->insert('service_spare_part', $data);
+        return $this->db->insert_id();
+    }
 
     public function remove_cart($id_user)
     {
         $this->db->where('id_user', $id_user);
         $this->db->delete('keranjang');
+    }
+    public function delete_spare_part_service($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('service_spare_part');
     }
     public function get_pembelian_detail($id_user = '')
     {
@@ -341,5 +351,15 @@ class User_model extends CI_Model
     public function get_spare_part()
     {
         return $this->db->get('spare_part')->result_array();
+    }
+    public function get_spare_part_service_id($id)
+    {
+        $this->db->select('service_spare_part.*, spare_part.nama_spare_part,service.type, service.name, service.id_user');
+        $this->db->from('service_spare_part');
+        $this->db->join('spare_part', 'spare_part.id = service_spare_part.spare_part_id', 'left');
+        $this->db->join('service', 'service.id = service_spare_part.service_id', 'left');
+        $this->db->where('service_spare_part.service_id', $id);
+        $query = $this->db->get();
+        return $query->result_array();
     }
 }

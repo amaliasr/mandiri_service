@@ -14,6 +14,7 @@
                         <th>Detail</th>
                         <th>Note</th>
                         <th>Status</th>
+                        <th>Spare Part</th>
                     </tr>
                 </thead>
                 <tbody id="brandTable">
@@ -26,7 +27,24 @@
         </div>
     </div>
 </div>
-
+<!-- Spare Part -->
+<div class="modal fade" id="editSparePart" tabindex="-1" aria-labelledby="editSparePartLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editSparePartLabel">Spare Part</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-5" style="height: 100% !important;" id="isiBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -53,6 +71,7 @@
                     row.append($('<td>').text(value.name));
                     row.append($('<td>').text(value.note));
                     row.append($('<td>').text(value.status));
+                    row.append($('<td>').html('<button class="btn btn-sm bg-danger" onclick="sparePart(' + value.id + ')">Spare Part</button>'));
                     a++
                     tableBody.append(row);
                 });
@@ -61,6 +80,65 @@
                 console.log(xhr.responseText);
             }
         });
+    }
+
+    function sparePart(id) {
+        $.ajax({
+            url: "<?php echo base_url('admin/get_spare_part_service_id'); ?>",
+            method: "POST",
+            data: {
+                id: id
+            },
+            dataType: "json",
+            success: function(response) {
+                $('#editSparePart').modal('show');
+                var data = response;
+                var html = ''
+                html += '<div class="row">'
+                html += '<div class="col-12">'
+
+                html += '<table class="table table-bordered table-hover">'
+                html += '<thead>'
+                html += '<tr>'
+                html += '<th>#</th>'
+                html += '<th>Nama</th>'
+                html += '<th>QTY</th>'
+                html += '<th>Harga</th>'
+                html += '</tr>'
+                html += '</thead>'
+                html += '<tbody id="ListSP">'
+                html += '</tbody>'
+                html += '</table>'
+
+                html += '</div>'
+                html += '</div>'
+                $('#isiBody').html(html)
+                listSP(data.service, id)
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
+    }
+
+    function listSP(data, service_id) {
+        var html = ''
+        var a = 1
+        var total = 0
+        data.forEach(e => {
+            html += '<tr>'
+            html += '<td>' + a++ + '</td>'
+            html += '<td>' + e.nama_spare_part + '</td>'
+            html += '<td>' + e.qty + '</td>'
+            html += '<td>' + e.biaya + '</td>'
+            html += '</tr>'
+            total = parseInt(total) + parseInt(e.biaya)
+        });
+        html += '<tr>'
+        html += '<td colspan="3">Total Biaya</td>'
+        html += '<td>' + total + '</td>'
+        html += '</tr>'
+        $('#ListSP').html(html)
     }
 
     function batalService(service_id) {
