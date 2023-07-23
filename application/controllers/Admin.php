@@ -264,4 +264,62 @@ class Admin extends CI_Controller
 
         echo json_encode(array('status' => 'success', 'message' => 'Order updated successfully.'));
     }
+    public function stock()
+    {
+        $data['title'] = 'Stock';
+        $this->template->views('admin/stock', $data);
+    }
+    public function spare_part()
+    {
+        $data['title'] = 'Spare Part';
+        $this->template->views('admin/spare_part', $data);
+    }
+    public function get_spare_part()
+    {
+        $data = $this->User_model->get_spare_part();
+        echo json_encode($data);
+    }
+
+    public function add_spare_part()
+    {
+        $data = array(
+            'nama_spare_part' => $this->input->post('name_spare_part'),
+            'stok' => $this->input->post('stok'),
+            'biaya_beli' => $this->input->post('harga_beli'),
+            'biaya_jual' => $this->input->post('harga_jual'),
+        );
+        $this->User_model->add_spare_part($data);
+        echo json_encode(array('status' => 'success', 'message' => 'Spare Part added successfully.'));
+    }
+    public function update_spare_part()
+    {
+        $data = array(
+            'nama_spare_part' => $this->input->post('name_spare_part'),
+            'stok' => $this->input->post('stok'),
+            'biaya_beli' => $this->input->post('harga_beli'),
+            'biaya_jual' => $this->input->post('harga_jual'),
+        );
+
+        $id = $this->input->post('id');
+        $this->User_model->update_spare_part($id, $data);
+
+        echo json_encode(array('status' => 'success', 'message' => 'Service updated successfully.'));
+    }
+    public function get_spare_part_id()
+    {
+        $id = $this->input->post('id');
+        $data = $this->User_model->get_spare_part_id($id);
+        if ($data) {
+            echo json_encode($data);
+        } else {
+            echo json_encode(['message' => 'Spare Part not found']);
+        }
+    }
+    public function delete_spare_part()
+    {
+        $id = $this->input->post('id');
+        $this->User_model->delete_spare_part($id);
+        $response = array('status' => 'success');
+        echo json_encode($response);
+    }
 }

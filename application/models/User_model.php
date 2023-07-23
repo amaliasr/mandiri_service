@@ -41,6 +41,10 @@ class User_model extends CI_Model
     {
         return $this->db->get_where('produk', array('id' => $id))->row();
     }
+    public function get_spare_part_id($id)
+    {
+        return $this->db->get_where('spare_part', array('id' => $id))->row();
+    }
 
     public function add_product($data)
     {
@@ -52,6 +56,11 @@ class User_model extends CI_Model
         $this->db->where('id', $id);
         return $this->db->update('produk', $data);
     }
+    public function update_spare_part($id, $data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('spare_part', $data);
+    }
     public function update_user($id, $data)
     {
         $this->db->where('id', $id);
@@ -62,6 +71,11 @@ class User_model extends CI_Model
     {
         $this->db->where('id', $id);
         return $this->db->delete('produk');
+    }
+    public function delete_spare_part($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->delete('spare_part');
     }
     public function get_product($product_id)
     {
@@ -80,6 +94,10 @@ class User_model extends CI_Model
     public function add_brand($data)
     {
         return $this->db->insert('brand', $data);
+    }
+    public function add_spare_part($data)
+    {
+        return $this->db->insert('spare_part', $data);
     }
 
     public function update_brand($id, $data)
@@ -319,5 +337,9 @@ class User_model extends CI_Model
         }
 
         return array_values($result);
+    }
+    public function get_spare_part()
+    {
+        return $this->db->get('spare_part')->result_array();
     }
 }
