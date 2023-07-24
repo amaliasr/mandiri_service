@@ -199,7 +199,7 @@
                                                     <li><a href="<?= base_url() ?>admin/order">Orders</a></li>
                                                     <li><a href="<?= base_url() ?>admin/complaint">Complaint</a></li>
                                                     <li><a href="<?= base_url() ?>admin/spare_part">Spare Part</a></li>
-                                                    <li><a href="<?= base_url() ?>admin/stock">Stock</a></li>
+                                                    <!-- <li><a href="<?= base_url() ?>admin/stock">Stock</a></li> -->
                                                 <?php } ?>
                                             </ul>
                                         </div>
