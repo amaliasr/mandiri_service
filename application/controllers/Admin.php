@@ -359,4 +359,14 @@ class Admin extends CI_Controller
         $response = array('status' => 'success');
         echo json_encode($response);
     }
+    public function cetak_order()
+    {
+        $data['title'] = 'Cetak Order';
+        $this->load->view('admin/cetak_order', $data);
+    }
+    public function cetak_service()
+    {
+        $data['title'] = 'Cetak Service';
+        $this->load->view('admin/cetak_service', $data);
+    }
 }

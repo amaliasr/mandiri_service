@@ -1,7 +1,12 @@
 <div class="container p-5">
     <div class="row">
-        <div class="col-md-12 pl-5">
+        <div class="col-6 pl-5">
             <h4>Customer Orders</h4>
+        </div>
+        <div class="col-6 pr-5 text-right">
+
+            <a href="<?= base_url() ?>admin/cetak_order" target="_BLANK"><button type="button" class="btn btn-default"><i class="fa fa-print"></i></button></a>
+
         </div>
         <div class="col-md-12 p-5">
             <table class="table table-bordered table-hover">
@@ -83,7 +88,7 @@
                     row.append($('<td>').text(value.tipe_pembayaran));
                     var bukti = ''
                     if (value.tipe_pembayaran != 'COD') {
-                        bukti = '<a href="<?= base_url() ?>upload/product/' + value.bukti_pembayaran + '" target="_blank">Lihat Bukti</a>'
+                        bukti = '<a href="<?= base_url() ?>upload/bukti/' + value.bukti_pembayaran + '" target="_blank">Lihat Bukti</a>'
                     }
                     row.append($('<td>').html(bukti));
                     row.append($('<td>').text(value.status));

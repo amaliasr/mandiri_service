@@ -1,7 +1,12 @@
 <div class="container p-5">
     <div class="row">
-        <div class="col-md-12 pl-5">
+        <div class="col-6 pl-5">
             <h4>Service</h4>
+        </div>
+        <div class="col-6 pr-5 text-right">
+
+            <a href="<?= base_url() ?>admin/cetak_service" target="_BLANK"><button type="button" class="btn btn-default"><i class="fa fa-print"></i></button></a>
+
         </div>
         <div class="col-md-12 p-5">
             <button type="button" class="btn btn-primary mb-2" data-toggle="modal" href="#tambahServiceModal">
