@@ -27,10 +27,21 @@
                                     <input type="number" name="phone" id="phone" placeholder="" required="required" value="<?= $this->session->userdata('phone') ?>">
                                 </div>
                             </div>
-                            <div class="col-lg-12 col-md-12 col-12">
+                            <div class="col-lg-6 col-md-6 col-12">
                                 <div class="form-group">
                                     <label>Alamat<span>*</span></label>
                                     <input type="text" name="alamat" id="alamat" placeholder="" required="required" value="<?= $this->session->userdata('alamat') ?>">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-12">
+                                <div class="form-group">
+                                    <label>Kota<span>*</span></label>
+                                    <select name="city" id="city" class="form-control" required="required" onchange="getOngkir()">
+                                        <?php foreach ($city as $key => $value) { ?>
+                                            <option value="<?= $value['id'] ?>" data-ongkir="<?= $value['ongkir'] ?>"><?= $value['nama'] ?></option>
+                                        <?php } ?>
+                                    </select>
+
                                 </div>
                             </div>
                         </div>
@@ -55,7 +66,8 @@
                                 } ?>
                             </div>
                             <ul>
-                                <li class="last"><b>Total</b><span><b><?= number_format($total) ?></b></span></li>
+                                <li class="last"><b>Biaya Ongkir</b><span><b id="biayaOngkir"></b></span></li>
+                                <li class="last"><b>Total</b><span><b id="grandTotal"><?= number_format($total) ?></b></span></li>
                             </ul>
                         </div>
                     </div>
@@ -117,6 +129,18 @@
 <!--/ End Checkout -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    var total = '<?= $total ?>'
+    $(document).ready(function() {
+        getOngkir()
+    });
+
+    function getOngkir() {
+        var data = $('#city').find(':selected').data('ongkir')
+        $('#biayaOngkir').html(data.toLocaleString())
+        var grandTotal = parseInt(data) + parseInt(total)
+        $('#grandTotal').html(grandTotal.toLocaleString())
+    }
+
     function payment(code) {
         // if (code == 1) {
         if ($('[name="payment"][value="1"]').is(':checked')) {

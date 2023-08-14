@@ -9,7 +9,7 @@
 
         </div>
         <div class="col-md-12 p-5">
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover" style="font-size: 12px;">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -20,6 +20,8 @@
                         <th>Bukti</th>
                         <th>Status</th>
                         <th>Detail</th>
+                        <th>Ongkir</th>
+                        <th>Total</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -93,7 +95,9 @@
                     row.append($('<td>').html(bukti));
                     row.append($('<td>').text(value.status));
                     var html = ''
+                    var total = 0
                     value.detail.forEach(e => {
+                        total += parseInt(e.price)
                         html += '<div class="row">'
                         html += '<div class="col-10">'
                         html += e.nama_produk
@@ -105,8 +109,11 @@
                         html += '</div>'
                         html += '</div>'
                     });
+                    total += parseInt(value.ongkir)
                     row.append($('<td>').html(html));
-                    row.append($('<td>').html('<button class="btn btn-sm bg-warning" onclick="editData(' + value.id + ')">Ubah Status</button>'));
+                    row.append($('<td>').text(value.ongkir.toLocaleString()));
+                    row.append($('<td>').text(total.toLocaleString()));
+                    row.append($('<td>').html('<button class="btn btn-sm bg-warning p-2" style="font-size:10px" onclick="editData(' + value.id + ')">Ubah Status</button>'));
                     a++
                     tableBody.append(row);
                 });

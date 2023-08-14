@@ -45,6 +45,7 @@ class Home extends CI_Controller
     {
         $data['title'] = 'Checkout';
         $data['cart'] =  $this->User_model->getCartItems($this->session->userdata('id'));
+        $data['city'] =  $this->User_model->get_city();
         $this->template->views('user/checkout', $data);
     }
     public function get_services()
@@ -98,6 +99,7 @@ class Home extends CI_Controller
         $phone = $this->input->post('phone');
         $alamat = $this->input->post('alamat');
         $payment = $this->input->post('payment');
+        $city = $this->input->post('city');
         $kodePembayaran = 'PAY' . date('YmdHis');
         $tipe_pembayaran = 'COD';
         if ($payment[0] == 1) {
@@ -133,6 +135,7 @@ class Home extends CI_Controller
         );
         $id_user = $this->session->userdata('id');
         $this->User_model->update_user($id_user, $dataUser);
+        $getCity = $this->User_model->get_city_id($city);
         $dataPembelian = array(
             'id_user' => $id_user,
             'tgl_pembelian' => date('Y-m-d'),
@@ -141,6 +144,8 @@ class Home extends CI_Controller
             'alamat' => $alamat,
             'bukti_pembayaran' => $imagePath,
             'status' => 'Process',
+            'city' => $getCity[0]['nama'],
+            'ongkir' => $getCity[0]['ongkir'],
         );
         $this->User_model->add_pembayaran($dataPembelian);
         $id_pembelian = $this->db->insert_id();

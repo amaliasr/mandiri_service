@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2023 at 03:55 PM
+-- Generation Time: Aug 14, 2023 at 03:59 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.1.17
 
@@ -39,6 +39,26 @@ CREATE TABLE `brand` (
 INSERT INTO `brand` (`id`, `name`) VALUES
 (1, 'TOSHIBA'),
 (2, 'SHARP');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `city`
+--
+
+CREATE TABLE `city` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(40) NOT NULL,
+  `ongkir` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `city`
+--
+
+INSERT INTO `city` (`id`, `nama`, `ongkir`) VALUES
+(1, 'DKI JAKARTA', 5000),
+(2, 'JAKARTA UTARA', 10000);
 
 -- --------------------------------------------------------
 
@@ -121,20 +141,23 @@ CREATE TABLE `pembelian` (
   `kode_pembelian` varchar(20) NOT NULL,
   `alamat` text NOT NULL,
   `bukti_pembayaran` varchar(200) NOT NULL,
-  `status` varchar(30) NOT NULL
+  `status` varchar(30) NOT NULL,
+  `city` varchar(40) NOT NULL,
+  `ongkir` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `pembelian`
 --
 
-INSERT INTO `pembelian` (`id`, `id_user`, `tgl_pembelian`, `id_tipe_pembayaran`, `kode_pembelian`, `alamat`, `bukti_pembayaran`, `status`) VALUES
-(1, 3, '2023-06-29', 'Transfer', 'PAY20230629180811', 'Malang', '76a405fe7090a69e46c6d2cd98e0dcee.png', 'Process'),
-(2, 3, '2023-06-29', 'COD', 'PAY20230629181228', 'Malang', '', 'Process'),
-(3, 3, '2023-07-01', 'COD', 'PAY20230701171935', 'Malang', '', 'Process'),
-(7, 3, '2023-07-01', 'COD', 'PAY20230701173951', 'Malang', '', 'Sedang Dikemas'),
-(8, 4, '2023-07-16', 'COD', 'PAY20230716040024', 'Malang', '', 'Process'),
-(9, 4, '2023-07-16', 'Transfer', 'PAY20230716040902', 'Malang', '17d6a2789ae08c9e551876b2880f427d.jpg', 'Process');
+INSERT INTO `pembelian` (`id`, `id_user`, `tgl_pembelian`, `id_tipe_pembayaran`, `kode_pembelian`, `alamat`, `bukti_pembayaran`, `status`, `city`, `ongkir`) VALUES
+(1, 3, '2023-06-29', 'Transfer', 'PAY20230629180811', 'Malang', '76a405fe7090a69e46c6d2cd98e0dcee.png', 'Process', '', 0),
+(2, 3, '2023-06-29', 'COD', 'PAY20230629181228', 'Malang', '', 'Process', '', 0),
+(3, 3, '2023-07-01', 'COD', 'PAY20230701171935', 'Malang', '', 'Process', '', 0),
+(7, 3, '2023-07-01', 'COD', 'PAY20230701173951', 'Malang', '', 'Sedang Dikemas', '', 0),
+(8, 4, '2023-07-16', 'COD', 'PAY20230716040024', 'Malang', '', 'Process', '', 0),
+(9, 4, '2023-07-16', 'Transfer', 'PAY20230716040902', 'Malang', '17d6a2789ae08c9e551876b2880f427d.jpg', 'Process', '', 0),
+(10, 4, '2023-08-14', 'COD', 'PAY20230814154137', 'Malang', '', 'Process', 'DKI JAKARTA', 5000);
 
 -- --------------------------------------------------------
 
@@ -163,7 +186,8 @@ INSERT INTO `pembelian_detail` (`id`, `id_pembelian`, `id_produk`, `price`) VALU
 (7, 7, 2, 9000000),
 (8, 8, 2, 9000000),
 (9, 9, 2, 9000000),
-(10, 9, 1, 5000000);
+(10, 9, 1, 5000000),
+(11, 10, 1, 5000000);
 
 -- --------------------------------------------------------
 
@@ -186,7 +210,7 @@ CREATE TABLE `produk` (
 --
 
 INSERT INTO `produk` (`id`, `type`, `name`, `id_brand`, `harga`, `stok`, `image`) VALUES
-(1, 'TV', '32 Inch AQUOS LED 2T-C32DC1i', 2, 5000000, 11, '196366f2f7aea13d5d3864f819749c7d.jpg'),
+(1, 'TV', '32 Inch AQUOS LED 2T-C32DC1i', 2, 5000000, 10, '196366f2f7aea13d5d3864f819749c7d.jpg'),
 (2, 'TV', 'LED TV 2K DIGITAL 2T-C42DD1i', 2, 9000000, 97, 'caad28e6285946ca7dab5e4eb81a0681.jpg');
 
 -- --------------------------------------------------------
@@ -293,6 +317,12 @@ ALTER TABLE `brand`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `city`
+--
+ALTER TABLE `city`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `keranjang`
 --
 ALTER TABLE `keranjang`
@@ -363,10 +393,16 @@ ALTER TABLE `brand`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `city`
+--
+ALTER TABLE `city`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `keranjang`
 --
 ALTER TABLE `keranjang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `komplain`
@@ -384,13 +420,13 @@ ALTER TABLE `komplain_reply`
 -- AUTO_INCREMENT for table `pembelian`
 --
 ALTER TABLE `pembelian`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `pembelian_detail`
 --
 ALTER TABLE `pembelian_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `produk`

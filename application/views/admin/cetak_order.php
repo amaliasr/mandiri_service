@@ -18,7 +18,7 @@
         <![endif]-->
 </head>
 
-<body>
+<body style="padding:90px;">
     <div class="row">
         <div class="col-12 text-center">
             <h3 class="m-0">Laporan Penjualan</h3>
@@ -35,6 +35,8 @@
                         <th>Tipe Pembayaran</th>
                         <th>Status</th>
                         <th>Detail</th>
+                        <th>Ongkir</th>
+                        <th>Total</th>
                     </tr>
                 </thead>
                 <tbody id="dataTable">
@@ -73,10 +75,15 @@
                         row.append($('<td>').text(value.tipe_pembayaran));
                         row.append($('<td>').text(value.status));
                         var html = ''
+                        var total = 0
                         value.detail.forEach(e => {
+                            total += parseInt(e.price)
                             html += '(' + e.count + ') ' + e.nama_produk
                         });
+                        total += parseInt(value.ongkir)
                         row.append($('<td>').html(html));
+                        row.append($('<td>').text(value.ongkir.toLocaleString()));
+                        row.append($('<td>').text(total.toLocaleString()));
                         a++
                         tableBody.append(row);
                     });

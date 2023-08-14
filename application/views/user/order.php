@@ -13,6 +13,8 @@
                         <th>Tipe Pembayaran</th>
                         <th>Status</th>
                         <th>Detail</th>
+                        <th>Ongkir</th>
+                        <th>Total</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,7 +27,11 @@
                             <td><?= $value['tipe_pembayaran'] ?></td>
                             <td><?= $value['status'] ?></td>
                             <td>
-                                <?php foreach ($value['detail'] as $k => $v) { ?>
+                                <?php
+                                $total = 0;
+                                foreach ($value['detail'] as $k => $v) {
+                                    $total = $total + $v['price'];
+                                ?>
                                     <div class="row">
                                         <div class="col-10">
                                             <?= $v['nama_produk'] ?>
@@ -36,8 +42,12 @@
                                             <?= $v['count'] ?> x
                                         </div>
                                     </div>
-                                <?php } ?>
+                                <?php }
+                                $total = $total + $value['ongkir'];
+                                ?>
                             </td>
+                            <td><?= number_format($value['ongkir']) ?></td>
+                            <td><?= number_format($total) ?></td>
                         </tr>
                     <?php } ?>
                 </tbody>

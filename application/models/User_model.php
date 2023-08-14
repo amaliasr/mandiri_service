@@ -87,6 +87,10 @@ class User_model extends CI_Model
     {
         return $this->db->get('brand')->result_array();
     }
+    public function get_city()
+    {
+        return $this->db->get('city')->result_array();
+    }
     public function get_all_users()
     {
         return $this->db->get('user')->result_array();
@@ -194,6 +198,14 @@ class User_model extends CI_Model
     {
         return $this->db->get_where('komplain_reply', array('id_komplain' => $id))->row();
     }
+    public function get_city_id($id)
+    {
+        $this->db->select('*');
+        $this->db->from('city');
+        $this->db->where('city.id', $id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     public function get_order_by_id($id)
     {
         return $this->db->get_where('pembelian', array('id' => $id))->row();
@@ -300,7 +312,7 @@ class User_model extends CI_Model
     }
     public function get_pembelian_detail($id_user = '')
     {
-        $this->db->select('pembelian.id as id_pembelian,pembelian.tgl_pembelian, pembelian.id_tipe_pembayaran, pembelian.id_user, user.name, pembelian.kode_pembelian, pembelian.bukti_pembayaran, pembelian.status, pembelian_detail.id_produk,pembelian_detail.price, produk.name as nama_produk, COUNT(pembelian_detail.id_produk) AS count');
+        $this->db->select('pembelian.id as id_pembelian,pembelian.tgl_pembelian,pembelian.ongkir, pembelian.id_tipe_pembayaran, pembelian.id_user, user.name, pembelian.kode_pembelian, pembelian.bukti_pembayaran, pembelian.status, pembelian_detail.id_produk,pembelian_detail.price, produk.name as nama_produk, COUNT(pembelian_detail.id_produk) AS count');
         $this->db->from('pembelian');
         $this->db->join('user', 'user.id = pembelian.id_user', 'left');
         $this->db->join('pembelian_detail', 'pembelian_detail.id_pembelian = pembelian.id', 'left');
@@ -327,6 +339,7 @@ class User_model extends CI_Model
                         'kode_pembelian' => $row->kode_pembelian,
                         'bukti_pembayaran' => $row->bukti_pembayaran,
                         'status' => $row->status,
+                        'ongkir' => $row->ongkir,
                         'detail' => array()
                     );
 
